@@ -8,7 +8,8 @@ import DAO.PeregrinoDAO;
 public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
-		Connection con=Peregrino_BDD.Conex_BDD();
+		Connection con =null;
+		 con=Peregrino_BDD.Conex_BDD(con);
 		PeregrinoDAO d =PeregrinoDAO.Conexion_Peregrino(con);
 		PeregrinoDAO d1 =PeregrinoDAO.Conexion_Peregrino(con);
 		PeregrinoDAO d2=PeregrinoDAO.Conexion_Peregrino(con);

@@ -12,11 +12,18 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 public class Peregrino_BDD {
 	
 	public static Peregrino_BDD conex_PeregrinosBDD;
-	public static Connection con;
+	public  Connection con;
 		
-	public static Connection Conex_BDD() {
+	private Peregrino_BDD(Connection con) {
+		if(con==null) {
+			this.con=con;
+		}
+					
+	}
+	
+	public static Connection Conex_BDD(Connection con) {
 		try {
-			if (con == null || con.isClosed()) {
+			if (con == null) {
 				Properties properties = new Properties();
 				MysqlDataSource m = new MysqlDataSource();
 				FileInputStream fis;
@@ -43,7 +50,7 @@ public class Peregrino_BDD {
 		}
 		return con;
 	}
-	public static void cerrarConexion() {
+	public static void cerrarConexion(Connection con) {
 		try {
 			if (con != null && !con.isClosed()) {
 				con.close();
