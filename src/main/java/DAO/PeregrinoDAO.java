@@ -6,6 +6,7 @@ import java.util.Collection;
 import BDD.Peregrino_BDD;
 import Modelo.Peregrino;
 
+//esta clase tiene singleton
 public class PeregrinoDAO implements operacionesCRUD<Peregrino>{
 
 	private static PeregrinoDAO Datos_Peregrino;

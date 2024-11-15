@@ -13,7 +13,7 @@ public class PeregrinoPrincipal {
 		PeregrinoDAO d1 =PeregrinoDAO.Conexion_Peregrino(con);
 		PeregrinoDAO d2=PeregrinoDAO.Conexion_Peregrino(con);
 		PeregrinoDAO d3=PeregrinoDAO.Conexion_Peregrino(con);
-		
+		//prueba del singleton
 		System.out.println(d.hashCode());
 		System.out.println(d1.hashCode());
 		System.out.println(d2.hashCode());
