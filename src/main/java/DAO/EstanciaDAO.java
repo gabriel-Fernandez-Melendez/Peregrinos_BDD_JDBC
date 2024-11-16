@@ -1,11 +1,28 @@
 package DAO;
 
+import java.sql.Connection;
 import java.util.Collection;
 
 import Modelo.Estancia;
 
 public class EstanciaDAO implements operacionesCRUD<Estancia>{
 
+	private static EstanciaDAO Datos_Estancia;
+	public Connection con;
+	
+	private EstanciaDAO(Connection con){
+		if(Datos_Estancia==null){
+			this.con=con;
+		}
+	}
+	
+	public static EstanciaDAO Conexion_Estancia(Connection con){
+		if(Datos_Estancia==null){
+			Datos_Estancia= new EstanciaDAO(con);
+		}
+		return Datos_Estancia;
+	}
+	
 	@Override
 	public boolean insertarConID(Estancia elemento) {
 		// TODO Auto-generated method stub

@@ -1,11 +1,25 @@
 package DAO;
 
+import java.sql.Connection;
 import java.util.Collection;
 
 import Modelo.Carnet;
 
 public class CarnetDAO implements operacionesCRUD<Carnet>{
 
+	public static CarnetDAO Datos_Carnet;
+	public Connection con;
+	
+	private CarnetDAO(Connection con) {
+		this.con=con;
+	}
+	
+	public static CarnetDAO Conexion_Peregrino(Connection con) {
+		if(Datos_Carnet==null) {
+			Datos_Carnet=new CarnetDAO(con);
+		}
+		return Datos_Carnet;
+	}
 	@Override
 	public boolean insertarConID(Carnet elemento) {
 		// TODO Auto-generated method stub

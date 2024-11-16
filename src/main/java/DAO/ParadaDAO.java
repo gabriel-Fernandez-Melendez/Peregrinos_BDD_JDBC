@@ -1,11 +1,26 @@
 package DAO;
 
+import java.sql.Connection;
 import java.util.Collection;
 
 import Modelo.Parada;
 
 public class ParadaDAO implements operacionesCRUD<Parada>{
 
+	private static ParadaDAO Datos_Parada;
+	public Connection con;
+	
+	private ParadaDAO(Connection con) {
+		this.con=con;
+	}
+	
+	public static ParadaDAO Conexion_Parada(Connection con) {
+		if(Datos_Parada==null) {
+			Datos_Parada=new ParadaDAO(con);
+		}
+		return Datos_Parada;
+	}
+	
 	@Override
 	public boolean insertarConID(Parada elemento) {
 		// TODO Auto-generated method stub

@@ -8,48 +8,49 @@ import java.sql.SQLException;
 import java.util.Properties;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-
+//clase que se conecta con la base de datos aplicando singleton
 public class Peregrino_BDD {
 	
+	//un campo estatico de una instancia de la propia clase y el parametro que pasamos como argumento tanto en el metodo como el constructor 
 	public static Peregrino_BDD conex_PeregrinosBDD;
 	public  Connection con;
 		
+	//constructor pribado al cual solo se accede desde el metodo publico que inicializa la instancia estatica
 	private Peregrino_BDD(Connection con) {
-		if(con==null) {
+		if(conex_PeregrinosBDD==null) {
 			this.con=con;
 		}
 					
 	}
 	
-	public static Connection Conex_BDD(Connection con) {
+	//metodo que nos conexta a la base de datos y asigna la conecion a la instancia estatica
+	public static Peregrino_BDD Conex_BDD(Connection con) {
 		try {
-			if (con == null) {
+			if (conex_PeregrinosBDD == null) {
 				Properties properties = new Properties();
 				MysqlDataSource m = new MysqlDataSource();
 				FileInputStream fis;
 				fis = new FileInputStream("src\\main\\java\\recursos\\db.properties");
-				// cargamos la información del fichero properties
 				properties.load(fis);
-				// asignamos al origen de datos las propiedades leidas del fichero properties
 				m.setUrl(properties.getProperty("url"));
 				m.setPassword(properties.getProperty("password"));
-				m.setUser(properties.getProperty("usuario")); // obtememos la conexion
+				m.setUser(properties.getProperty("usuario"));
 				fis.close();
 				con = m.getConnection();
+				conex_PeregrinosBDD =new Peregrino_BDD(con);
 			}
-			return con;
+			return conex_PeregrinosBDD;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return con;
+		return conex_PeregrinosBDD;
 	}
+	
+	//metodo para cerrar la conecion cuando sea necesario
 	public static void cerrarConexion(Connection con) {
 		try {
 			if (con != null && !con.isClosed()) {

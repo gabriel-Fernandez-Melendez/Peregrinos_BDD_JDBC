@@ -1,11 +1,27 @@
 package DAO;
 
+import java.sql.Connection;
 import java.util.Collection;
 
 import Modelo.CredencialesUsuario;
 
 public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuario> {
 
+	public static CredencialesUsuarioDAO Datos_CredencialesUsuario;
+	public Connection con;
+	
+	private CredencialesUsuarioDAO(Connection con) {
+		if(Datos_CredencialesUsuario==null){
+			this.con=con;
+		}
+	}
+	
+	public static CredencialesUsuarioDAO Conexion_CredencialesUsuario(Connection con){
+		if(Datos_CredencialesUsuario==null) {
+			Datos_CredencialesUsuario=new CredencialesUsuarioDAO(con);
+		}
+		return Datos_CredencialesUsuario;
+	}
 	@Override
 	public boolean insertarConID(CredencialesUsuario elemento) {
 		// TODO Auto-generated method stub
