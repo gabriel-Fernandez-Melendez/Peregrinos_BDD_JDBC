@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2024 a las 19:44:42
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Tiempo de generación: 20-11-2024 a las 11:38:03
+-- Versión del servidor: 10.4.28-MariaDB
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bdperegrinos_gabriel`
+-- Base de datos: `bdperegrinos_gabrielfernandez`
 --
 
 -- --------------------------------------------------------
@@ -35,6 +35,17 @@ CREATE TABLE `carnet` (
   `n_vips` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `carnet`
+--
+
+INSERT INTO `carnet` (`id`, `id_parada_ini`, `fecha_exp`, `distancia`, `n_vips`) VALUES
+(1, 1, '2024-11-08', 0, 0),
+(2, 2, '2024-11-15', 0, 0),
+(3, 3, '2024-11-20', 0, 0),
+(4, 4, '2024-11-03', 0, 0),
+(5, 5, '2024-11-22', 0, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +58,22 @@ CREATE TABLE `credenciales_usuario` (
   `clave` varchar(30) NOT NULL,
   `tipo_perfil` enum('invitado','Responsable_parada','Peregrino','Administrador_general') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `credenciales_usuario`
+--
+
+INSERT INTO `credenciales_usuario` (`id`, `nombre`, `clave`, `tipo_perfil`) VALUES
+(1, 'gabo', 'gabo', 'Peregrino'),
+(2, 'fernando', 'fernando', 'Peregrino'),
+(3, 'lucia', 'lucia', 'Peregrino'),
+(4, 'pepo', 'pepo', 'Peregrino'),
+(5, 'nombre', 'clave', 'Peregrino'),
+(6, 'adminparada', 'adminparada', 'Responsable_parada'),
+(7, 'responsable', 'parada', 'Responsable_parada'),
+(8, 'paradageneral', 'parada', 'Responsable_parada'),
+(9, 'parada1', '1234', 'Responsable_parada'),
+(10, 'parada2', '1234', 'Responsable_parada');
 
 -- --------------------------------------------------------
 
@@ -71,10 +98,21 @@ CREATE TABLE `estancia` (
 CREATE TABLE `parada` (
   `id` int(11) NOT NULL,
   `id_credenciales` int(11) NOT NULL,
-  `nombre` int(11) NOT NULL,
-  `region` int(11) NOT NULL,
-  `nombre_responsable` int(11) NOT NULL
+  `nombre` varchar(30) NOT NULL,
+  `region` char(1) NOT NULL,
+  `nombre_responsable` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `parada`
+--
+
+INSERT INTO `parada` (`id`, `id_credenciales`, `nombre`, `region`, `nombre_responsable`) VALUES
+(1, 6, 'ACDC Street', 'A', 'gonzalo'),
+(2, 7, 'Colina Gallega', 'C', 'pedro'),
+(3, 8, 'Pedrusco Gordo', 'P', 'julia'),
+(4, 9, 'Montaña Gallega', 'M', 'julian'),
+(5, 10, 'Casi Santiago', 'S', 'compadre');
 
 -- --------------------------------------------------------
 
@@ -86,9 +124,20 @@ CREATE TABLE `peregrino` (
   `id` int(11) NOT NULL,
   `id_credenciales` int(11) NOT NULL,
   `id_carnet` int(11) NOT NULL,
-  `nombre` int(11) NOT NULL,
-  `nacionalidad` int(11) NOT NULL
+  `nombre` varchar(30) NOT NULL,
+  `nacionalidad` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `peregrino`
+--
+
+INSERT INTO `peregrino` (`id`, `id_credenciales`, `id_carnet`, `nombre`, `nacionalidad`) VALUES
+(1, 1, 1, 'gabriel', 'Dinamarca'),
+(2, 2, 2, 'fernando', 'Alemania'),
+(3, 3, 3, 'lucia', 'Francia'),
+(4, 4, 4, 'pepo gonzalez', 'Canadá'),
+(5, 5, 5, 'nombrecompleto', 'Bélgica');
 
 -- --------------------------------------------------------
 
@@ -100,7 +149,7 @@ CREATE TABLE `sellado_en_parada` (
   `id` int(11) NOT NULL,
   `id_peregrino` int(11) NOT NULL,
   `id_parada` int(11) NOT NULL,
-  `fecha_de_sello` int(11) NOT NULL
+  `fecha_de_sello` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -159,13 +208,13 @@ ALTER TABLE `sellado_en_parada`
 -- AUTO_INCREMENT de la tabla `carnet`
 --
 ALTER TABLE `carnet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `credenciales_usuario`
 --
 ALTER TABLE `credenciales_usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `estancia`
@@ -177,7 +226,7 @@ ALTER TABLE `estancia`
 -- AUTO_INCREMENT de la tabla `peregrino`
 --
 ALTER TABLE `peregrino`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `sellado_en_parada`
@@ -212,7 +261,8 @@ ALTER TABLE `parada`
 -- Filtros para la tabla `peregrino`
 --
 ALTER TABLE `peregrino`
-  ADD CONSTRAINT `peregrino_ibfk_1` FOREIGN KEY (`id_credenciales`) REFERENCES `credenciales_usuario` (`id`);
+  ADD CONSTRAINT `peregrino_ibfk_1` FOREIGN KEY (`id_credenciales`) REFERENCES `credenciales_usuario` (`id`),
+  ADD CONSTRAINT `peregrino_ibfk_2` FOREIGN KEY (`id_carnet`) REFERENCES `carnet` (`id`);
 
 --
 -- Filtros para la tabla `sellado_en_parada`

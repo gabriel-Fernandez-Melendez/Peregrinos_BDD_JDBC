@@ -2,7 +2,7 @@ package vista;
 
 import java.util.Scanner;
 
-import Modelo.Peregrino;
+import Modelo.*;
 import utilidades.Utilidades;
 
 
@@ -55,5 +55,27 @@ public class Menus {
 			break;
 		}
 				} while (val);
+	}
+	//hay que hacer que este metodo tenga los correspondientes menus
+	public static void MenuLogin(CredencialesUsuario cred,Peregrino p) {
+		Usuarios usu = cred.getTipo_usuario();
+		//el propio switch verifica que el usuario cuenta con el tipo correcto para acceder a sus funcionalidades
+		switch (usu) {
+		case Invitado:
+			//por aqui nunca pasa , solo pasa por aqui antes de crear un  perfil, pero por orden de codig lo incluyo
+			break;
+		case Responsable_Parada:
+			//Menu_ResponsableParada();
+			break;
+		case Peregrino:
+			//MenuPeregrino(p);
+			break;
+		case Administrador_General:
+			//Menu_AdminGeneral();
+			break;			
+		default:
+			System.out.println("algo no ha ido como se esperaba");
+			break;
+		}
 	}
 }

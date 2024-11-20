@@ -8,11 +8,14 @@ import DAO.CredencialesUsuarioDAO;
 import DAO.EstanciaDAO;
 import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
+import Modelo.Peregrino;
+import controlador.PeregrinoController;
 
 public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
-	
+	Peregrino p= new Peregrino();
+	p=PeregrinoController.NuevoPeregrino();
 	}
 	
 }

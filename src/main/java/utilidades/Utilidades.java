@@ -31,7 +31,7 @@ public class Utilidades {
 		Scanner scan=new Scanner(System.in);
 		String linea;
 		do {			
-			 linea =scan.nextLine();
+			 linea =scan.next();
 			 if(Pattern.matches("[a-zA-Z]+",linea)) {
 				 val=true;
 			 }
@@ -39,8 +39,20 @@ public class Utilidades {
 				 System.out.println("no puede incluir numeros en este campo,porfavor rellene denuevo el campo correctamente ");
 			 }
 		}while(!val);		
-		scan.close();		
-		return linea;
-		
+
+		return linea;		
+	}
+	
+	public static int LeerNumero() {
+		int num=0;
+		Scanner scan=new Scanner(System.in);
+		//en este caso no declaro una variable booleana ya que se comprueba en la condicion del while
+		while(!scan.hasNextInt()) {
+			num = scan.nextInt();
+			if(!scan.hasNextInt()) {
+				System.out.println("engrese un valor que solo contenga numeros");
+			}
+		}	
+		return num;
 	}
 }
