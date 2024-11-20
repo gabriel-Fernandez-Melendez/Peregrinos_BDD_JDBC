@@ -1,6 +1,7 @@
 package utilidades;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Utilidades {
 
@@ -23,5 +24,23 @@ public class Utilidades {
 			ret = false;
 		}
 		return ret;
+	}
+	
+	public static String LeerCadena() {
+		boolean val = false;
+		Scanner scan=new Scanner(System.in);
+		String linea;
+		do {			
+			 linea =scan.nextLine();
+			 if(Pattern.matches("[a-zA-Z]+",linea)) {
+				 val=true;
+			 }
+			 else {
+				 System.out.println("no puede incluir numeros en este campo,porfavor rellene denuevo el campo correctamente ");
+			 }
+		}while(!val);		
+		scan.close();		
+		return linea;
+		
 	}
 }
