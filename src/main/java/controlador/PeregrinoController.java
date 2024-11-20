@@ -1,7 +1,9 @@
 package controlador;
 
+import java.io.CharConversionException;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import BDD.Peregrino_BDD;
+import DAO.CredencialesUsuarioDAO;
 import Modelo.Carnet;
 import Modelo.CredencialesUsuario;
 import Modelo.Estancia;
@@ -26,7 +30,9 @@ import utilidades.Utilidades;
 import vista.Menus;
 
 public class PeregrinoController {
-
+	public static Connection c=null;
+	public static Peregrino_BDD con=Peregrino_BDD.Conex_BDD(c);
+	
 	public static Peregrino NuevoPeregrino() {
 		boolean val =false;
 		Peregrino p = new Peregrino();
@@ -39,7 +45,10 @@ public class PeregrinoController {
 		cred.setNombre(nombre);
 		cred.setClave(contraseña);
 		cred.setTipo_usuario(Usuarios.Peregrino);
-		//cred=Controlador_CredencialesUsuario.Credenciales_Nuevas(cred); revisar esta linea!!! ESTO SERA LA DAO DE CREDENCIALES
+		//creamos el objetoDAO QUE TIENE SINGLETON PARA EJECUTAR LA INSERCION
+		
+		CredencialesUsuarioDAO credenciales=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(con);
+		val=credenciales.insertarConID(cred);
 		if(val) {//este if tiene que tener true si el valor de las credenciales no existia hasta ahora
 		System.out.println("las credenciales son validas");	
 		System.out.println("Se han ingresado a la base de datos!");	
