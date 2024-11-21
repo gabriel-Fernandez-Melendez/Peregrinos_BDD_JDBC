@@ -13,12 +13,12 @@ public class Peregrino_BDD {
 	
 	//un campo estatico de una instancia de la propia clase y el parametro que pasamos como argumento tanto en el metodo como el constructor 
 	public static Peregrino_BDD conex_PeregrinosBDD;
-	public  Connection con;
+	public  Connection conex_BDD;
 		
 	//constructor pribado al cual solo se accede desde el metodo publico que inicializa la instancia estatica
 	private Peregrino_BDD(Connection con) {
 		if(conex_PeregrinosBDD==null) {
-			this.con=con;
+			this.conex_BDD=con;
 		}
 					
 	}

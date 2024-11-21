@@ -2,11 +2,15 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import BDD.Peregrino_BDD;
 import Modelo.CredencialesUsuario;
+import Modelo.Usuarios;
 
 
 public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuario> {
@@ -31,14 +35,14 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 	@Override
 	public boolean insertarConID(CredencialesUsuario c) {
 		boolean val =false;
-		if (this.con == null  ) {
-			Connection co=null;
+		Connection co=null;
+		if (this.con == null  ) {			
 			this.con = Peregrino_BDD.Conex_BDD(co);
 		}			
 		String insert="INSERT INTO credenciales_usuario( nombre, clave, tipo_perfil) VALUES (?,?,?)";
 		try {
 			//esta linea puede resultar confusa
-			PreparedStatement pstmt = con.con.prepareStatement(insert);
+			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
 			pstmt.setString(1, c.getNombre());
 			pstmt.setString(2, c.getClave());
 			pstmt.setString(3, c.getTipo_usuario().getTipoDeUsuario());
@@ -51,10 +55,12 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 				System.out.println("hubo algun error al momento de la insercion");
 				val=false;
 			}
+			Peregrino_BDD.cerrarConexion(co);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		return val;
 	}
 
@@ -72,8 +78,40 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 
 	@Override
 	public Collection<CredencialesUsuario> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		//hay que declarar esto fuera del of para cerrarlo correctamente
+		Connection co=null;
+		List<CredencialesUsuario> lista=new ArrayList<>();
+		CredencialesUsuario cred =new CredencialesUsuario();
+		String consulta ="select * from credenciales_usuario";
+		if (this.con == null  ) {
+			
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		try {
+			PreparedStatement pstmt = con.conex_BDD.prepareStatement(consulta);
+			ResultSet resultado = pstmt.executeQuery();
+			while(resultado.next()) {
+				long id = resultado.getLong("id");
+				String nombre = resultado.getNString("nombre");
+				String clave = resultado.getNString("clave");
+				String perfil = resultado.getNString("tipo_perfil");
+				for(Usuarios u:Usuarios.values()) {
+					if(perfil.equalsIgnoreCase(u.getTipoDeUsuario())) {
+						cred.setTipo_usuario(u);
+					}
+				}
+				cred.setId(id);
+				cred.setNombre(nombre);
+				cred.setClave(clave);				
+				lista.add(cred);
+				System.out.println(cred.toString());
+			}
+			Peregrino_BDD.cerrarConexion(co);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
 	}
 
 	@Override

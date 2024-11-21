@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,10 +48,18 @@ public class PeregrinoController {
 		cred.setClave(contraseña);
 		cred.setTipo_usuario(Usuarios.Peregrino);
 		//creamos el objetoDAO QUE TIENE SINGLETON PARA EJECUTAR LA INSERCION
-		
 		CredencialesUsuarioDAO credenciales=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(con);
-		val=credenciales.insertarConID(cred);
-		if(val) {//este if tiene que tener true si el valor de las credenciales no existia hasta ahora
+		Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
+		lista=credenciales.buscarTodos();
+		val=CredencialesUsuarioController.ValidarCredenciales(lista, cred);
+		if(val) {
+			val=credenciales.insertarConID(cred);
+		}
+		else {
+			//esto para que si no son validas las ingrese de nuevo
+			break;
+		}
+		if(val) {//este if tiene que tener true si el valor de las credenciales no existia hasta ahora y que las ingrese en caso de no existir
 		System.out.println("las credenciales son validas");	
 		System.out.println("Se han ingresado a la base de datos!");	
 		p.setNombre(nombre);

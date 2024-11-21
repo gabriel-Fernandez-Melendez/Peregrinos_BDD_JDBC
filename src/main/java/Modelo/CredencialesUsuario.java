@@ -1,21 +1,23 @@
 package Modelo;
 
 public class CredencialesUsuario {
+	private long id;
 	private String nombre;
 	private String clave;
 	private Usuarios tipo_usuario;
-	private long id;
+	
 	
 	public CredencialesUsuario() {
 		
 	}
 
-	public CredencialesUsuario(String nombre, String clave, Usuarios tipo_usuario, long id) {
+	public CredencialesUsuario(long id,String nombre, String clave, Usuarios tipo_usuario) {
 		super();
+		this.id = id;
 		this.nombre = nombre;
 		this.clave = clave;
 		this.tipo_usuario = tipo_usuario;
-		this.id = id;
+		
 	}
 
 	public String getNombre() {
