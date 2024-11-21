@@ -57,7 +57,7 @@ public class PeregrinoController {
 		}
 		else {
 			//esto para que si no son validas las ingrese de nuevo
-			break;
+			val=false;
 		}
 		if(val) {//este if tiene que tener true si el valor de las credenciales no existia hasta ahora y que las ingrese en caso de no existir
 		System.out.println("las credenciales son validas");	
@@ -69,7 +69,7 @@ public class PeregrinoController {
 			val=false;
 		}	
 		} while (!val);
-		val=true;
+		val=false;
 		do {
 			HashMap<String, String> paises = new HashMap<String, String>();
 			ArrayList<String> claves = new ArrayList<String>();
@@ -94,7 +94,7 @@ public class PeregrinoController {
 				val=false;
 			}
 			} while (!val);
-		val=false;
+		val=true;
 		do {		
 			ArrayList<Parada> paradas = new ArrayList<Parada>();//primer metodo que debe usar DAO
 			//paradas=Controlador_Parada.ListaDeParadas(); metodo de datos que hay que haces

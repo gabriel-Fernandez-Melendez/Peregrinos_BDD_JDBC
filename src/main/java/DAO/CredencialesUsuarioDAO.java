@@ -81,7 +81,7 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 		//hay que declarar esto fuera del of para cerrarlo correctamente
 		Connection co=null;
 		List<CredencialesUsuario> lista=new ArrayList<>();
-		CredencialesUsuario cred =new CredencialesUsuario();
+		
 		String consulta ="select * from credenciales_usuario";
 		if (this.con == null  ) {
 			
@@ -91,6 +91,7 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 			PreparedStatement pstmt = con.conex_BDD.prepareStatement(consulta);
 			ResultSet resultado = pstmt.executeQuery();
 			while(resultado.next()) {
+				CredencialesUsuario cred =new CredencialesUsuario();
 				long id = resultado.getLong("id");
 				String nombre = resultado.getNString("nombre");
 				String clave = resultado.getNString("clave");
@@ -104,6 +105,7 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 				cred.setNombre(nombre);
 				cred.setClave(clave);				
 				lista.add(cred);
+				//BORRAR ESTA LINEA AL TERMINAR LAS PRUEBAS
 				System.out.println(cred.toString());
 			}
 			Peregrino_BDD.cerrarConexion(co);

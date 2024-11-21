@@ -12,9 +12,9 @@ public class CredencialesUsuarioController {
 			if(u.getNombre().equalsIgnoreCase(cred.getNombre())&&u.getClave().equalsIgnoreCase(cred.getClave())){
 				System.out.println("estas credenciales ya existen, ingrese otras credenciales");
 				val =false;
+				break;
 			}
 			else {
-				System.out.println("las credenciales son correctas , se introduciran en el sistema!");
 				val =true;
 			}
 		}			
