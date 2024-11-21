@@ -49,6 +49,12 @@ public class Carnet {
 	public void setN_vips(int n_vips) {
 		this.n_vips = n_vips;
 	}
+	public Parada getParada() {
+		return parada;
+	}
+	public void setParada(Parada parada) {
+		this.parada = parada;
+	}
 	//metodo to string(por defecto aun sin ser modificado)
 	@Override
 	public String toString() {

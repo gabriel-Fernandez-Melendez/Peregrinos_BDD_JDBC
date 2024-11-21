@@ -26,8 +26,7 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 	
 	public static CredencialesUsuarioDAO Conexion_CredencialesUsuario(Peregrino_BDD con){
 		if(Datos_CredencialesUsuario==null) {
-			Connection c=null;
-			Datos_CredencialesUsuario=new CredencialesUsuarioDAO(Peregrino_BDD.Conex_BDD(c));
+			Datos_CredencialesUsuario=new CredencialesUsuarioDAO(con);
 		}
 		return Datos_CredencialesUsuario;
 	}

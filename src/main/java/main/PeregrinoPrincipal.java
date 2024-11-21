@@ -16,12 +16,22 @@ public class PeregrinoPrincipal {
 	public static void main(String[] args) {
 	Peregrino p= new Peregrino();
 	p=PeregrinoController.NuevoPeregrino();
+		
 	}
 	
 }
 
 
 	/*
+		 * 
+		 * IMPORTANTE ,  FORMA DE CONTECTAR LA BASE CON SINGLETON
+		 * Connection c=null;
+		Peregrino_BDD con=Peregrino_BDD.Conex_BDD(c);
+		ParadaDAO parada=ParadaDAO.Conexion_Parada(con);
+		parada.buscarTodos();
+		 * 
+		 * 
+		 * 
 		 * //pruebas de funcionamineto del singleton 
 		 * Connection con =null;
 		 * 

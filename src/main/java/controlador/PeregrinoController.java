@@ -21,7 +21,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import BDD.Peregrino_BDD;
+import DAO.CarnetDAO;
 import DAO.CredencialesUsuarioDAO;
+import DAO.ParadaDAO;
 import Modelo.Carnet;
 import Modelo.CredencialesUsuario;
 import Modelo.Estancia;
@@ -96,8 +98,10 @@ public class PeregrinoController {
 			} while (!val);
 		val=true;
 		do {		
-			ArrayList<Parada> paradas = new ArrayList<Parada>();//primer metodo que debe usar DAO
-			//paradas=Controlador_Parada.ListaDeParadas(); metodo de datos que hay que haces
+			ArrayList<Parada> paradas = new ArrayList<Parada>();
+			ParadaDAO parada=ParadaDAO.Conexion_Parada(con);
+			//cast a arraylist para poder usar el metodo get() para la seleccion de la parada
+			paradas=(ArrayList<Parada>)parada.buscarTodos();
 			int z=1;
 			for(Parada par:paradas) {
 				System.out.println(z+" -"+par.toString());
@@ -118,7 +122,10 @@ public class PeregrinoController {
 			}
 		} while (!val);
 		Carnet carnet=new Carnet();
-		carnet=CarnetController.NuevoCarnet(p);//hay que tocar este metodo
+		carnet=CarnetController.NuevoCarnet(p);//este metodo devuelve un objeto con los datos necesarios de un  nuevo carnet
+		CarnetDAO carnetBDD= CarnetDAO.Conexion_Peregrino(con);
+		long num=carnetBDD.insertarSinID(carnet);
+		System.out.println("el id del carnet es: "+num);
 		p.setCarnet_peregrino(carnet);
 		//hania codigo relativo a estancias aqui, creo que no sera necesario en el futuro pero dejo el comentatario en caso de que me sea necesario
 		System.out.println("se a añadido al peregrino con: "+p.getId()+" "+p.getNombre()+" "+p.getNacionalidad()+" "+carnet.getFecha_creacion()+" "+p.getParadas().get(0).getNombre()+" "+p.getParadas().get(0).getRegion());

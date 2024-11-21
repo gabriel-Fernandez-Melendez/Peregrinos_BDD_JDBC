@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 public class Utilidades {
 
+
 	public static boolean leerBoolean() {
 		boolean ret;
 		Scanner in;
@@ -44,15 +45,21 @@ public class Utilidades {
 	}
 	
 	public static int LeerNumero() {
-		int num=0;
+		boolean val = false;
 		Scanner scan=new Scanner(System.in);
-		//en este caso no declaro una variable booleana ya que se comprueba en la condicion del while
-		while(!scan.hasNextInt()) {
-			num = scan.nextInt();
-			if(!scan.hasNextInt()) {
-				System.out.println("engrese un valor que solo contenga numeros");
-			}
-		}	
-		return num;
+		String linea;
+		int num =0;
+		do {			
+			 linea =scan.next();
+			 if(Pattern.matches("^[0-9]*$",linea)) {
+				 num=Integer.parseInt(linea);
+				 val=true;
+			 }
+			 else {
+				 System.out.println("no puede incluir numeros en este campo,porfavor rellene denuevo el campo correctamente ");
+			 }
+		}while(!val);		
+
+		return num;	
 	}
 }
