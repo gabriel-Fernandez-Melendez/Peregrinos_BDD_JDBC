@@ -97,7 +97,7 @@ public class ParadaController {
 			 Collection<Parada> paradas =new ArrayList<Parada>();
 			 
 			usuarios =credenciales.buscarTodos();
-			val=CredencialesUsuarioController.ValidarCredenciales(usuarios, responsable);
+			val=CredencialesUsuarioController.ValidarCredencialesNuevas(usuarios, responsable);
 			if(val) {
 				System.out.println("las credenciales introducidas son validas");
 			}
@@ -124,7 +124,7 @@ public class ParadaController {
 				}
 			}
 			parada.setId_credenciales(responsable.getId());
-			long num2=par.insertarSinID(parada);
+			long num2=par.InsertarParada(parada,responsable);
 			System.out.println(num);
 			System.out.println(num2);
 			}	

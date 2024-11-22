@@ -102,19 +102,28 @@ public class ParadaDAO implements operacionesCRUD<Parada>{
 		if (this.con == null) {			
 			this.con = Peregrino_BDD.Conex_BDD(co);
 		}
-		String insert="INSERT INTO parada (id_credenciales,nombre,region,nombre_responsable) values (?,?,?,?)";
+		String insert="INSERT INTO parada(id_credenciales,nombre,region,nombre_responsable) values (?,?,?,?)";
 		try {
 			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
 			pstmt.setLong(1,c.getId());
 			pstmt.setString(2,p.getNombre());
-			//pstmt.setString(3,p.getRegion());
-			pstmt.setString(2,p.getNombre());
-			
-			
+			pstmt.setString(3,String.valueOf(p.getRegion()));//adaptar esta linea para que el string sea un char
+			pstmt.setString(4,p.getResponsable_parada());
+			int resultadoInsercion = pstmt.executeUpdate();
+			if (resultadoInsercion == 1) {
+				num=resultadoInsercion;
+				System.out.println("se han almacenado las credenciales del usuario");
+
+			}
+			else {
+				System.out.println("hubo algun error al momento de la insercion");
+
+			}
+			Peregrino_BDD.cerrarConexion(co);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return 0;
+		return num;
 	}
 }

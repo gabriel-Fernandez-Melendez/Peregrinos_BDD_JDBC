@@ -53,7 +53,7 @@ public class PeregrinoController {
 		CredencialesUsuarioDAO credenciales=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(con);
 		Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
 		lista=credenciales.buscarTodos();
-		val=CredencialesUsuarioController.ValidarCredenciales(lista, cred);
+		val=CredencialesUsuarioController.ValidarCredencialesNuevas(lista, cred);
 		if(val) {
 			val=credenciales.insertarConID(cred);
 		}
