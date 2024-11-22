@@ -22,7 +22,7 @@ public class CredencialesUsuarioController {
 		return val;
 	}
 	
-	//creo que con esto  tengo todo el login 
+	//creo que con esto  tengo todo el login (controlar esto en un do while en el futuro cuando se incluyan los menus)
 	public static CredencialesUsuario ValidarCredencialesLogin(Collection<CredencialesUsuario> lista,CredencialesUsuario cred) {
 		CredencialesUsuario credenciales_completas=new CredencialesUsuario();
 		boolean val=false;

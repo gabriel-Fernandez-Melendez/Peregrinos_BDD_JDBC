@@ -1,6 +1,7 @@
 package main;
 
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,6 +12,7 @@ import DAO.EstanciaDAO;
 import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
 import Modelo.CredencialesUsuario;
+import Modelo.Estancia;
 import Modelo.Peregrino;
 import controlador.CredencialesUsuarioController;
 import controlador.ParadaController;
@@ -19,17 +21,31 @@ import controlador.PeregrinoController;
 public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
-		Connection c=null;
+	
+	}
+	
+}
+/*	//IMPORTANTE prueba del metodo del 3er caso de uso , aun hay que implementar que meta por pantalla las fechas el usuario
+ * 	Connection c=null;
+		Peregrino_BDD p=Peregrino_BDD.Conex_BDD(c);
+		EstanciaDAO conex=EstanciaDAO.Conexion_Estancia(p);
+		Collection<Estancia> lista=new ArrayList<Estancia>();
+		lista =conex.BuscarEstanciasPorFechas(LocalDate.of(2020, 1, 1),LocalDate.of(2024, 12, 21));
+		for(Estancia e:lista) {
+			System.out.println(e.toString());
+ * 
+ * 
+ * //IMPORTANTE funcionamiento basico del login donde quedan por incluir los menus	
+ * 	Connection c=null;
 		Peregrino_BDD p=Peregrino_BDD.Conex_BDD(c);
 		CredencialesUsuarioDAO cred=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(p);
 		Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
 		lista=cred.buscarTodos();
 		CredencialesUsuario creden=CredencialesUsuarioController.Login();
+		
 		CredencialesUsuarioController.ValidarCredencialesLogin(lista, creden);
-	}
-	
-}
-/*		prueba del metodo nueva parada	
+ * 
+ * prueba del metodo nueva parada	
  * 		boolean val =false;
 		val=ParadaController.NuevaParada();
  * 

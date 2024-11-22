@@ -8,7 +8,7 @@ import Modelo.Peregrino;
 
 //esta clase tiene singleton
 public class PeregrinoDAO implements operacionesCRUD<Peregrino>{
-
+	//tengo que hacer le metodo peregrino por que lo almaceno en credenciales y no en peregrino 
 	private static PeregrinoDAO Datos_Peregrino;
 	public Connection con;
 	

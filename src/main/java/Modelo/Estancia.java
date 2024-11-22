@@ -52,6 +52,19 @@ public class Estancia {
 	public void setVip(boolean vip) {
 		this.vip = vip;
 	}
+	
+	public Peregrino getPeregrino() {
+		return peregrino;
+	}
+	public void setPeregrino(Peregrino peregrino) {
+		this.peregrino = peregrino;
+	}
+	public Parada getParada() {
+		return parada;
+	}
+	public void setParada(Parada parada) {
+		this.parada = parada;
+	}
 	//metodo to string(por defecto aun sin ser modificado)
 	@Override
 	public String toString() {
