@@ -3,6 +3,7 @@ package controlador;
 import java.util.Collection;
 
 import Modelo.CredencialesUsuario;
+import utilidades.Utilidades;
 
 public class CredencialesUsuarioController {
 
@@ -22,18 +23,32 @@ public class CredencialesUsuarioController {
 	}
 	
 	//creo que con esto  tengo todo el login 
-	public static boolean ValidarCredencialesLogin(Collection<CredencialesUsuario> lista,CredencialesUsuario cred) {
+	public static CredencialesUsuario ValidarCredencialesLogin(Collection<CredencialesUsuario> lista,CredencialesUsuario cred) {
+		CredencialesUsuario credenciales_completas=new CredencialesUsuario();
 		boolean val=false;
 		for(CredencialesUsuario u:lista) {
 			if(u.getNombre().equalsIgnoreCase(cred.getNombre())&&u.getClave().equalsIgnoreCase(cred.getClave())){
-				System.out.println("bienvenido: "+cred.getNombre()+ "es usted un: "+cred.getTipo_usuario().toString());
+				credenciales_completas=u;
+				System.out.println("bienvenido: "+credenciales_completas.getNombre()+ "es usted un: "+credenciales_completas.getTipo_usuario().toString());
 				val =true;
 				break;
 			}
 			else {
+				System.out.println("no validas");
 				val =true;
 			}
 		}			
-		return val;
+		return credenciales_completas;
+	}
+	
+	public static CredencialesUsuario Login() {
+		CredencialesUsuario cred =new CredencialesUsuario();
+		System.out.println("introduzca si nombre de login");
+		String nombre = Utilidades.LeerCadena();
+		System.out.println("introduzca su contraseña");
+		String clave = Utilidades.LeerCadena();
+		cred.setNombre(nombre);
+		cred.setClave(clave);
+		return cred;
 	}
 }

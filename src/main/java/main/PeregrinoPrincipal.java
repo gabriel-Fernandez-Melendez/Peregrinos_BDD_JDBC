@@ -1,6 +1,8 @@
 package main;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import BDD.Peregrino_BDD;
 import DAO.CarnetDAO;
@@ -8,19 +10,31 @@ import DAO.CredencialesUsuarioDAO;
 import DAO.EstanciaDAO;
 import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
+import Modelo.CredencialesUsuario;
 import Modelo.Peregrino;
+import controlador.CredencialesUsuarioController;
 import controlador.ParadaController;
 import controlador.PeregrinoController;
 
 public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
-		boolean val =false;
-		val=ParadaController.NuevaParada();
+		Connection c=null;
+		Peregrino_BDD p=Peregrino_BDD.Conex_BDD(c);
+		CredencialesUsuarioDAO cred=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(p);
+		Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
+		lista=cred.buscarTodos();
+		CredencialesUsuario creden=CredencialesUsuarioController.Login();
+		CredencialesUsuarioController.ValidarCredencialesLogin(lista, creden);
 	}
 	
 }
-/*			IMPORTANTE prueba del metodo nuevo peregrino 
+/*		prueba del metodo nueva parada	
+ * 		boolean val =false;
+		val=ParadaController.NuevaParada();
+ * 
+ * 
+ * IMPORTANTE prueba del metodo nuevo peregrino 
  * 
 		 * Peregrino p= new Peregrino(); p=PeregrinoController.NuevoPeregrino();
 		 * System.out.println("exito"); System.out.println("manin");
