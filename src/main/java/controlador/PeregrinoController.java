@@ -130,7 +130,7 @@ public class PeregrinoController {
 		//hania codigo relativo a estancias aqui, creo que no sera necesario en el futuro pero dejo el comentatario en caso de que me sea necesario
 		System.out.println("se a añadido al peregrino con: "+p.getId()+" "+p.getNombre()+" "+p.getNacionalidad()+" "+carnet.getFecha_creacion()+" "+p.getParadas().get(0).getNombre()+" "+p.getParadas().get(0).getRegion());
 		Menus.MenuLogin(cred,p);//tengo que crear aun el carnet
-		//IMPORTANTE TENGO QUE SELLAR EL CODIGO DE QUE CREO EL CARNET EN ESA PARADA
+		//IMPORTANTE TENGO QUE SELLAR EL CODIGO DE QUE CREO EL CARNET EN ESA PARADA--
 		return p;
 	}
 	public static HashMap<String, String> SeleccionDePais() {

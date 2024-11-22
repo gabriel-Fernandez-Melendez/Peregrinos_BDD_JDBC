@@ -64,9 +64,36 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 	}
 
 	@Override
-	public long insertarSinID(CredencialesUsuario elemento) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long insertarSinID(CredencialesUsuario c) {
+		long num  =0;
+		Connection co=null;
+		if (this.con == null  ) {			
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}			
+		String insert="INSERT INTO credenciales_usuario( nombre, clave, tipo_perfil) VALUES (?,?,?)";
+		try {
+			//esta linea puede resultar confusa
+			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
+			pstmt.setString(1, c.getNombre());
+			pstmt.setString(2, c.getClave());
+			pstmt.setString(3, c.getTipo_usuario().getTipoDeUsuario());
+			int resultadoInsercion = pstmt.executeUpdate();
+			if (resultadoInsercion == 1) {
+				num=resultadoInsercion;
+				System.out.println("se han almacenado las credenciales del usuario");
+
+			}
+			else {
+				System.out.println("hubo algun error al momento de la insercion");
+
+			}
+			Peregrino_BDD.cerrarConexion(co);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return num;
 	}
 
 	@Override
@@ -125,6 +152,14 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 	public boolean eliminar(CredencialesUsuario elemento) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	//es posible que no haga falta esto
+	public long BuscarAdminParada(CredencialesUsuario c) {
+		Connection co=null;
+		if (this.con == null  ) {			
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		return 0; 
 	}
 
 }

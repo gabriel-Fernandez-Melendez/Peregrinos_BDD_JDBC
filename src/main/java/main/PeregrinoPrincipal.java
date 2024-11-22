@@ -9,18 +9,22 @@ import DAO.EstanciaDAO;
 import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
 import Modelo.Peregrino;
+import controlador.ParadaController;
 import controlador.PeregrinoController;
 
 public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
-	Peregrino p= new Peregrino();
-	p=PeregrinoController.NuevoPeregrino();
-		
+		boolean val =false;
+		val=ParadaController.NuevaParada();
 	}
 	
 }
-
+/*			IMPORTANTE prueba del metodo nuevo peregrino 
+ * 
+		 * Peregrino p= new Peregrino(); p=PeregrinoController.NuevoPeregrino();
+		 * System.out.println("exito"); System.out.println("manin");
+		 */
 
 	/*
 		 * 

@@ -35,10 +35,10 @@ public class ParadaDAO implements operacionesCRUD<Parada>{
 		return false;
 	}
 
+	//tengo que terminar este metodo
 	@Override
-	public long insertarSinID(Parada elemento) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long insertarSinID(Parada p) {
+		return 0 ;
 	}
 
 	@Override
@@ -95,5 +95,26 @@ public class ParadaDAO implements operacionesCRUD<Parada>{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	//creo  un  metodo fuera del crud para poder pasdar como argumento tambien el id de credenciales
+	public long InsertarParada(Parada p,CredencialesUsuario c) {
+		long num  =0;
+		Connection co=null;
+		if (this.con == null) {			
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		String insert="INSERT INTO parada (id_credenciales,nombre,region,nombre_responsable) values (?,?,?,?)";
+		try {
+			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
+			pstmt.setLong(1,c.getId());
+			pstmt.setString(2,p.getNombre());
+			//pstmt.setString(3,p.getRegion());
+			pstmt.setString(2,p.getNombre());
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
