@@ -1,7 +1,10 @@
 package vista;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
+import BDD.Peregrino_BDD;
+import DAO.PeregrinoDAO;
 import Modelo.*;
 import controlador.PeregrinoController;
 import utilidades.Utilidades;
@@ -9,6 +12,8 @@ import utilidades.Utilidades;
 
 
 public class Menus {
+	public static Connection con;
+	public static Peregrino_BDD peregrinosBDD=Peregrino_BDD.Conex_BDD(con);
 	//hay alguno de estos metodos que tendre que meter retirn para llevar el control de las funciones de sus usuarios y almacenar los cambios en base a su id 
 	public static void MenuPrincipalInvitado() {
 		Peregrino peregrino=new Peregrino();//es esto necesario ? 
@@ -36,7 +41,11 @@ public class Menus {
 		val=false;
 		switch (elecc) {
 		case 1:
-			
+			Peregrino p=new Peregrino();
+			p=PeregrinoController.NuevoPeregrino();
+			PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(con);
+			//FALTA CREAR EL DAO
+			per.insertarSinID(p);
 			//meter la llamada al nuevo peregrino
 			break;
 		case 2:
