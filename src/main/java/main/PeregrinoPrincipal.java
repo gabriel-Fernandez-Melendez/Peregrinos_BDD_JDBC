@@ -17,11 +17,12 @@ import Modelo.Peregrino;
 import controlador.CredencialesUsuarioController;
 import controlador.ParadaController;
 import controlador.PeregrinoController;
+import vista.Menus;
 
 public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
-	
+	Menus.MenuPrincipalInvitado();
 	}
 	
 }

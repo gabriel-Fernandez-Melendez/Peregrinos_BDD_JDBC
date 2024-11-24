@@ -1,17 +1,22 @@
 package vista;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Scanner;
 
 import BDD.Peregrino_BDD;
+import DAO.CredencialesUsuarioDAO;
 import DAO.PeregrinoDAO;
 import Modelo.*;
+import controlador.CredencialesUsuarioController;
 import controlador.PeregrinoController;
 import utilidades.Utilidades;
 
 
 
 public class Menus {
+	//estos campos estaticos donde haga falta conectarse a la base de datos para acceder desde todos los metodos sin  hacer mas llamadas al mismo objeto singelizado
 	public static Connection con;
 	public static Peregrino_BDD peregrinosBDD=Peregrino_BDD.Conex_BDD(con);
 	//hay alguno de estos metodos que tendre que meter retirn para llevar el control de las funciones de sus usuarios y almacenar los cambios en base a su id 
@@ -43,13 +48,27 @@ public class Menus {
 		case 1:
 			Peregrino p=new Peregrino();
 			p=PeregrinoController.NuevoPeregrino();
-			PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(con);
+			PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(peregrinosBDD);
 			//FALTA CREAR EL DAO
 			per.insertarSinID(p);
-			//meter la llamada al nuevo peregrino
 			break;
 		case 2:
-			//meter la llamada al login
+			val=false;
+			do {
+				Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
+				CredencialesUsuario cred=new CredencialesUsuario();
+				CredencialesUsuarioDAO datos_cred=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(peregrinosBDD);
+				lista=datos_cred.buscarTodos();
+				cred=CredencialesUsuarioController.Login();
+				cred=CredencialesUsuarioController.ValidarCredencialesLogin(lista, cred);
+				if(cred.getTipo_usuario()!=null) {
+					System.out.println("bienvenido: "+cred.getNombre()+"accedera como: "+cred.getTipo_usuario().getTipoDeUsuario());
+					val=true;
+				}
+				else {
+					System.out.println("esas no son unas credenciales validas, ingrese credenciales basicas");
+				}			
+			}while(!val);	
 			break;
 		case 0:
 			System.out.println("seguro que quiere salir del programa?");
@@ -68,7 +87,7 @@ public class Menus {
 				} while (val);
 	}
 	//hay que hacer que este metodo tenga los correspondientes menus
-	public static void MenuLogin(CredencialesUsuario cred,Peregrino p) {
+	public static void MenuLogin(CredencialesUsuario cred) {
 		Usuarios usu = cred.getTipo_usuario();
 		//el propio switch verifica que el usuario cuenta con el tipo correcto para acceder a sus funcionalidades
 		switch (usu) {
@@ -76,10 +95,12 @@ public class Menus {
 			//por aqui nunca pasa , solo pasa por aqui antes de crear un  perfil, pero por orden de codig lo incluyo
 			break;
 		case Responsable_Parada:
-			//Menu_ResponsableParada();
+			//meter el !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SELLADO
+			Menu_ResponsableParada();
 			break;
 		case Peregrino:
-			//MenuPeregrino(p);
+			
+			MenuPeregrino();
 			break;
 		case Administrador_General:
 			//Menu_AdminGeneral();
@@ -90,7 +111,7 @@ public class Menus {
 		}
 		
 	}
-	public static void MenuPeregrino(Peregrino p) {
+	public static void MenuPeregrino() {
 		boolean val =true;
 		Scanner scan =new Scanner(System.in);
 		int elecc = -1;
@@ -99,7 +120,6 @@ public class Menus {
 		do {
 			System.out.println("Bienvenido invitado, que desea hacer en el sistema: ");
 			System.out.println("1 - Exportar carnet XML");
-			//hay que incluir eventualmente aqui la funcion de sellado
 			System.out.println("0 - salir");
 			System.out.println("-------------------------");			
 			scan.reset();			
@@ -115,6 +135,7 @@ public class Menus {
 		val=false;
 		switch (elecc) {
 		case 1:
+			Peregrino p = new Peregrino();
 			PeregrinoController.ExportarXml(p);
 			System.out.println("Quieres volveral menu principal?");
 			val=Utilidades.leerBoolean();
@@ -166,16 +187,8 @@ public class Menus {
 		val=false;
 		switch (elecc) {
 		case 1:
-			//meeter aqui el sellado
-			MenuPrincipalInvitado();
-			System.out.println("Quieres volveral menu principal?");
-			val=Utilidades.leerBoolean();
-			if(val) {
-			MenuPrincipalInvitado();	
-			}
-			else {
-				val=false;
-			}	
+			//aqui va el metodo de sellado!!!!!!!!!
+			
 			break;
 		case 0:
 			System.out.println("seguro que quiere salir del programa?");

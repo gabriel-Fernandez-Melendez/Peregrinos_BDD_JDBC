@@ -18,7 +18,10 @@ public class Peregrino {
 	
 	//para que el peregrino funcione como un usuario hasta que se incluya la base de datos metere un campo de enum que se encargara de diferenciar a donde tiene acceso el peregrino
 	private Usuarios tipo_usuario;
-		
+	
+	//atributo para llevar la clave
+	private CredencialesUsuario id_credenciales;
+	
 	//constructor por defecto
 	public Peregrino() {		
 	}
@@ -88,7 +91,20 @@ public class Peregrino {
 	}
 	public void setParadas(List<Parada> paradas) {
 		this.paradas = paradas;
-	}	
+	}
+	
+	public Usuarios getTipo_usuario() {
+		return tipo_usuario;
+	}
+	public void setTipo_usuario(Usuarios tipo_usuario) {
+		this.tipo_usuario = tipo_usuario;
+	}
+	public CredencialesUsuario getId_credenciales() {
+		return id_credenciales;
+	}
+	public void setId_credenciales(CredencialesUsuario id_credenciales) {
+		this.id_credenciales = id_credenciales;
+	}
 	//metodo to string(por defecto aun sin ser modificado)
 	@Override
 	public String toString() {

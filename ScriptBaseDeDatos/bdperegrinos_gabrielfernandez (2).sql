@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2024 a las 11:38:03
+-- Tiempo de generación: 24-11-2024 a las 15:19:15
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bdperegrinos_gabrielfernandez`
+-- Base de datos: `pepito`
 --
 
 -- --------------------------------------------------------
@@ -40,11 +40,14 @@ CREATE TABLE `carnet` (
 --
 
 INSERT INTO `carnet` (`id`, `id_parada_ini`, `fecha_exp`, `distancia`, `n_vips`) VALUES
-(1, 1, '2024-11-08', 0, 0),
-(2, 2, '2024-11-15', 0, 0),
-(3, 3, '2024-11-20', 0, 0),
-(4, 4, '2024-11-03', 0, 0),
-(5, 5, '2024-11-22', 0, 1);
+(10, 1, '2024-11-22', 0, 0),
+(14, 1, '2024-11-23', 0, 0),
+(15, 1, '2024-11-23', 0, 0),
+(16, 1, '2024-11-23', 0, 0),
+(17, 1, '2024-11-23', 0, 0),
+(18, 1, '2024-11-23', 0, 0),
+(19, 1, '2024-11-23', 0, 0),
+(20, 1, '2024-11-23', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -64,16 +67,18 @@ CREATE TABLE `credenciales_usuario` (
 --
 
 INSERT INTO `credenciales_usuario` (`id`, `nombre`, `clave`, `tipo_perfil`) VALUES
-(1, 'gabo', 'gabo', 'Peregrino'),
-(2, 'fernando', 'fernando', 'Peregrino'),
-(3, 'lucia', 'lucia', 'Peregrino'),
-(4, 'pepo', 'pepo', 'Peregrino'),
-(5, 'nombre', 'clave', 'Peregrino'),
-(6, 'adminparada', 'adminparada', 'Responsable_parada'),
-(7, 'responsable', 'parada', 'Responsable_parada'),
-(8, 'paradageneral', 'parada', 'Responsable_parada'),
-(9, 'parada1', '1234', 'Responsable_parada'),
-(10, 'parada2', '1234', 'Responsable_parada');
+(1, 'noel', 'noel', 'Responsable_parada'),
+(15, 'manuel', 'hola', 'Peregrino'),
+(16, 'FACUNDO', 'hola', 'Peregrino'),
+(17, 'noel', 'dddd', 'Peregrino'),
+(18, 'dfv', 'dfv', 'Peregrino'),
+(19, 'sdfv', 'sdfvc', 'Peregrino'),
+(20, 'dfvsd', 'sdfgb', 'Peregrino'),
+(21, 'sdddf', 'dfv', 'Peregrino'),
+(22, 's', 'sf', 'Peregrino'),
+(23, 'asdf', 'asdf', 'Peregrino'),
+(24, 'sdvf', 'sdfv', 'Peregrino'),
+(25, 'gabo', 'gabo', 'Peregrino');
 
 -- --------------------------------------------------------
 
@@ -108,11 +113,7 @@ CREATE TABLE `parada` (
 --
 
 INSERT INTO `parada` (`id`, `id_credenciales`, `nombre`, `region`, `nombre_responsable`) VALUES
-(1, 6, 'ACDC Street', 'A', 'gonzalo'),
-(2, 7, 'Colina Gallega', 'C', 'pedro'),
-(3, 8, 'Pedrusco Gordo', 'P', 'julia'),
-(4, 9, 'Montaña Gallega', 'M', 'julian'),
-(5, 10, 'Casi Santiago', 'S', 'compadre');
+(1, 1, 'Gijon', 'G', 'Noel');
 
 -- --------------------------------------------------------
 
@@ -133,11 +134,8 @@ CREATE TABLE `peregrino` (
 --
 
 INSERT INTO `peregrino` (`id`, `id_credenciales`, `id_carnet`, `nombre`, `nacionalidad`) VALUES
-(1, 1, 1, 'gabriel', 'Dinamarca'),
-(2, 2, 2, 'fernando', 'Alemania'),
-(3, 3, 3, 'lucia', 'Francia'),
-(4, 4, 4, 'pepo gonzalez', 'Canadá'),
-(5, 5, 5, 'nombrecompleto', 'Bélgica');
+(18, 19, 24, 'sdvf', 'Australia'),
+(19, 20, 25, 'gabo', 'Austria');
 
 -- --------------------------------------------------------
 
@@ -161,7 +159,7 @@ CREATE TABLE `sellado_en_parada` (
 --
 ALTER TABLE `carnet`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_parada_ini` (`id_parada_ini`);
+  ADD KEY `id_parada_ini` (`id_parada_ini`) USING BTREE;
 
 --
 -- Indices de la tabla `credenciales_usuario`
@@ -189,8 +187,8 @@ ALTER TABLE `parada`
 --
 ALTER TABLE `peregrino`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_credenciales` (`id_credenciales`),
-  ADD UNIQUE KEY `id_carnet` (`id_carnet`);
+  ADD KEY `id_credenciales` (`id_credenciales`) USING BTREE,
+  ADD KEY `id_carnet` (`id_carnet`) USING BTREE;
 
 --
 -- Indices de la tabla `sellado_en_parada`
@@ -208,13 +206,13 @@ ALTER TABLE `sellado_en_parada`
 -- AUTO_INCREMENT de la tabla `carnet`
 --
 ALTER TABLE `carnet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `credenciales_usuario`
 --
 ALTER TABLE `credenciales_usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `estancia`
@@ -226,7 +224,7 @@ ALTER TABLE `estancia`
 -- AUTO_INCREMENT de la tabla `peregrino`
 --
 ALTER TABLE `peregrino`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `sellado_en_parada`
@@ -256,13 +254,6 @@ ALTER TABLE `estancia`
 --
 ALTER TABLE `parada`
   ADD CONSTRAINT `parada_ibfk_1` FOREIGN KEY (`id_credenciales`) REFERENCES `credenciales_usuario` (`id`);
-
---
--- Filtros para la tabla `peregrino`
---
-ALTER TABLE `peregrino`
-  ADD CONSTRAINT `peregrino_ibfk_1` FOREIGN KEY (`id_credenciales`) REFERENCES `credenciales_usuario` (`id`),
-  ADD CONSTRAINT `peregrino_ibfk_2` FOREIGN KEY (`id_carnet`) REFERENCES `carnet` (`id`);
 
 --
 -- Filtros para la tabla `sellado_en_parada`

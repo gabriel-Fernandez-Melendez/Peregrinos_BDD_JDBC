@@ -35,6 +35,7 @@ import BDD.Peregrino_BDD;
 import DAO.CarnetDAO;
 import DAO.CredencialesUsuarioDAO;
 import DAO.ParadaDAO;
+import DAO.PeregrinoDAO;
 import Modelo.Carnet;
 import Modelo.CredencialesUsuario;
 import Modelo.Estancia;
@@ -47,6 +48,12 @@ import vista.Menus;
 public class PeregrinoController {
 	public static Connection c=null;
 	public static Peregrino_BDD con=Peregrino_BDD.Conex_BDD(c);
+	
+
+	
+	
+	
+	
 	
 	public static Peregrino NuevoPeregrino() {
 		boolean val =false;
@@ -66,7 +73,7 @@ public class PeregrinoController {
 		lista=credenciales.buscarTodos();
 		val=CredencialesUsuarioController.ValidarCredencialesNuevas(lista, cred);
 		if(val) {
-			val=credenciales.insertarConID(cred);
+			boolean val_credenciales=val;
 		}
 		else {
 			//esto para que si no son validas las ingrese de nuevo
@@ -74,7 +81,6 @@ public class PeregrinoController {
 		}
 		if(val) {//este if tiene que tener true si el valor de las credenciales no existia hasta ahora y que las ingrese en caso de no existir
 		System.out.println("las credenciales son validas");	
-		System.out.println("Se han ingresado a la base de datos!");	
 		p.setNombre(nombre);
 		}
 		else {
@@ -101,7 +107,8 @@ public class PeregrinoController {
 			System.out.println("es su pais el "+paises.get(valor_pais));
 			val=Utilidades.leerBoolean();
 			if(val) {
-				p.setNacionalidad(valor_pais);
+				//le doy un pais al peregrino
+				p.setNacionalidad(paises.get(valor_pais));
 			}
 			else {
 				val=false;
@@ -132,18 +139,27 @@ public class PeregrinoController {
 				val=false;
 			}
 		} while (!val);
+		
+		
+		//lo primero a introducir es el carnet
 		Carnet carnet=new Carnet();
 		carnet=CarnetController.NuevoCarnet(p);//este metodo devuelve un objeto con los datos necesarios de un  nuevo carnet
 		CarnetDAO carnetBDD= CarnetDAO.Conexion_Peregrino(con);
 		long num=carnetBDD.insertarSinID(carnet);
 		System.out.println("el id del carnet es: "+num);
 		p.setCarnet_peregrino(carnet);
+		//IMPORTANTE TENGO QUE SELLAR EL CODIGO DE QUE CREO EL CARNET EN ESA PARADA--
+		CredencialesUsuarioDAO credenciales=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(con);
+		credenciales.insertarConID(cred);
 		//hania codigo relativo a estancias aqui, creo que no sera necesario en el futuro pero dejo el comentatario en caso de que me sea necesario
 		System.out.println("se a añadido al peregrino con: "+p.getId()+" "+p.getNombre()+" "+p.getNacionalidad()+" "+carnet.getFecha_creacion()+" "+p.getParadas().get(0).getNombre()+" "+p.getParadas().get(0).getRegion());
-		Menus.MenuLogin(cred,p);//tengo que crear aun el carnet
-		//IMPORTANTE TENGO QUE SELLAR EL CODIGO DE QUE CREO EL CARNET EN ESA PARADA--
+		Menus.MenuLogin(cred);//tengo que crear aun el carnet
+		//si tengo que ingresar antes al peregrino esto  no tiene sentido 
 		return p;
 	}
+
+	  
+	 	
 	public static HashMap<String, String> SeleccionDePais() {
 		HashMap<String, String> paises = new HashMap<String, String>();
 		System.out.println("Escoja su pais de la siguiente lista: ");
@@ -242,6 +258,7 @@ public class PeregrinoController {
             orden=documento.createElement("orden");
             parada.appendChild(orden);
             //de momento no hace falta pero para el futuro habria que hacer un  bucle for que recorra y haga varios nodos parada en funcion de las paradas dentro de la lista(se implementara mas adelante)
+            //hay hacer que el objeto peregrino cuando sea seleccionado por id llegue entero 
             orden_val=documento.createTextNode(p.getParadas().get(0).getId().toString());
             orden.appendChild(orden_val);
             nombre_parada=documento.createElement("nombre");
