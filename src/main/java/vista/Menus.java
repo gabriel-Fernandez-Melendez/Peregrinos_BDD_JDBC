@@ -24,8 +24,7 @@ public class Menus {
 		Peregrino peregrino=new Peregrino();//es esto necesario ? 
 		boolean val =true;
 		int elecc = -1;
-		Scanner scan =new Scanner(System.in);
-		do {
+		
 					
 		do {
 			System.out.println("Bienvenido invitado, que desea hacer en el sistema: ");
@@ -34,7 +33,7 @@ public class Menus {
 			System.out.println("0 - salir del programa");
 			System.out.println("-------------------------");			
 			
-			elecc=scan.nextInt();
+			elecc=Utilidades.LeerNumero();
 			if(elecc<0 || elecc>2) {
 				System.out.println("el numero no es valido, introduzca un numero valido");
 				val=false;
@@ -49,24 +48,19 @@ public class Menus {
 			Peregrino p=new Peregrino();
 			p=PeregrinoController.NuevoPeregrino();
 			PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(peregrinosBDD);
-			//FALTA CREAR EL DAO
 			per.insertarSinID(p);
 			break;
 		case 2:
 			val=false;
 			do {
-				Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
-				CredencialesUsuario cred=new CredencialesUsuario();
-				CredencialesUsuarioDAO datos_cred=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(peregrinosBDD);
-				lista=datos_cred.buscarTodos();
-				cred=CredencialesUsuarioController.Login();
-				cred=CredencialesUsuarioController.ValidarCredencialesLogin(lista, cred);
-				if(cred.getTipo_usuario()!=null) {
-					System.out.println("bienvenido: "+cred.getNombre()+"accedera como: "+cred.getTipo_usuario().getTipoDeUsuario());
+				
+				val=CredencialesUsuarioController.login_completo();
+				if(val) {
 					val=true;
 				}
 				else {
 					System.out.println("esas no son unas credenciales validas, ingrese credenciales basicas");
+					val=false;
 				}			
 			}while(!val);	
 			break;
@@ -84,7 +78,7 @@ public class Menus {
 			System.out.println("algo a salido mal , intentelo de nuevo");
 			break;
 		}
-				} while (val);
+			
 	}
 	//hay que hacer que este metodo tenga los correspondientes menus
 	public static void MenuLogin(CredencialesUsuario cred) {
@@ -100,7 +94,7 @@ public class Menus {
 			break;
 		case Peregrino:
 			
-			MenuPeregrino();
+			MenuPeregrino(cred);
 			break;
 		case Administrador_General:
 			//Menu_AdminGeneral();
@@ -111,7 +105,7 @@ public class Menus {
 		}
 		
 	}
-	public static void MenuPeregrino() {
+	public static void MenuPeregrino(CredencialesUsuario cred) {
 		boolean val =true;
 		Scanner scan =new Scanner(System.in);
 		int elecc = -1;
@@ -135,8 +129,10 @@ public class Menus {
 		val=false;
 		switch (elecc) {
 		case 1:
+			PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(peregrinosBDD);
 			Peregrino p = new Peregrino();
-			PeregrinoController.ExportarXml(p);
+			p=per.buscarPorID(cred.getId());
+			PeregrinoController.Exportar(p.getId());
 			System.out.println("Quieres volveral menu principal?");
 			val=Utilidades.leerBoolean();
 			if(val) {

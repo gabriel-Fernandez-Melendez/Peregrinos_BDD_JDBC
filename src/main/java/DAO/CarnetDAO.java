@@ -2,11 +2,16 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import BDD.Peregrino_BDD;
 import Modelo.Carnet;
+import Modelo.CredencialesUsuario;
+import Modelo.Parada;
+import Modelo.Peregrino;
 
 public class CarnetDAO implements operacionesCRUD<Carnet>{
 
@@ -90,8 +95,38 @@ public class CarnetDAO implements operacionesCRUD<Carnet>{
 
 	@Override
 	public Carnet buscarPorID(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Carnet c=new Carnet();
+		Connection co=null;
+		if (this.con == null  ) {			
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		String consulta="SELECT * FROM carnet WHERE id =?";
+		PreparedStatement pstmt;
+		try {
+			pstmt = con.conex_BDD.prepareStatement(consulta);
+			pstmt.setLong(1, id);
+			ResultSet resultado = pstmt.executeQuery();
+			while (resultado.next()) {
+				long id_carnet =resultado.getLong("id");
+				long id_parada =resultado.getLong("id_parada_ini");
+				//forma de cojer localdate
+				LocalDate fecha =resultado.getDate("fecha_exp").toLocalDate();
+				double distancia=resultado.getDouble("distancia");
+				int vip=resultado.getInt("n_vips");
+				c.setId(id_carnet);
+				Parada p =new Parada();
+				p.setId(id_parada);
+				c.setParada(p);
+				c.setFecha_creacion(fecha);
+				c.setDistancia(distancia);
+				c.setN_vips(vip);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return c;
 	}
 
 	@Override

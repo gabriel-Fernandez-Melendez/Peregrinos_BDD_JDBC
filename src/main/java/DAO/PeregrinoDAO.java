@@ -90,8 +90,39 @@ public class PeregrinoDAO implements operacionesCRUD<Peregrino>{
 
 	@Override
 	public Peregrino buscarPorID(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Peregrino p=new Peregrino();
+		Connection co=null;
+		if (this.con == null  ) {			
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		String consulta="SELECT * FROM peregrino WHERE id_credenciales =?";
+		PreparedStatement pstmt;
+		try {
+			pstmt = con.conex_BDD.prepareStatement(consulta);
+			pstmt.setLong(1, id);
+			ResultSet resultado = pstmt.executeQuery();
+			while (resultado.next()) {
+				long id_peregrino =resultado.getLong("id");
+				long id_credenciales =resultado.getLong("id_credenciales");
+				long id_carnet =resultado.getLong("id_carnet");
+				String nombre=resultado.getString("nombre");
+				String pais=resultado.getString("nacionalidad");
+				p.setId(id_peregrino);
+				CredencialesUsuario cred=new CredencialesUsuario();
+				cred.setId(id_credenciales);
+				p.setId_credenciales(cred);
+				Carnet car=new Carnet();
+				car.setId(id_carnet);
+				p.setCarnet_peregrino(car);
+				p.setNombre(nombre);
+				p.setNacionalidad(pais);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return p;
 	}
 
 	@Override

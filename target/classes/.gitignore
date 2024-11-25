@@ -1,6 +1,5 @@
 /META-INF/
-/recursos/
-/Modelo/
-/DAO/
 /controlador/
 /vista/
+/main/
+/DAO/

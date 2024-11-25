@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import BDD.Peregrino_BDD;
 import DAO.CarnetDAO;
@@ -11,8 +12,10 @@ import DAO.CredencialesUsuarioDAO;
 import DAO.EstanciaDAO;
 import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
+import Modelo.Carnet;
 import Modelo.CredencialesUsuario;
 import Modelo.Estancia;
+import Modelo.Parada;
 import Modelo.Peregrino;
 import controlador.CredencialesUsuarioController;
 import controlador.ParadaController;
@@ -23,10 +26,21 @@ public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
 	Menus.MenuPrincipalInvitado();
-	}
 	
 }
-/*	//IMPORTANTE prueba del metodo del 3er caso de uso , aun hay que implementar que meta por pantalla las fechas el usuario
+}
+/*	//metodo de buscar a un  peregrino por id
+ * //Menus.MenuPrincipalInvitado()
+		Connection c=null;
+		Peregrino_BDD p=Peregrino_BDD.Conex_BDD(c);
+		PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(p);
+		Peregrino perg=new Peregrino();
+		perg= per.buscarPorID(20);
+		System.out.println(perg.toString());
+ * 
+ * 
+ * 
+ * //IMPORTANTE prueba del metodo del 3er caso de uso , aun hay que implementar que meta por pantalla las fechas el usuario
  * 	Connection c=null;
 		Peregrino_BDD p=Peregrino_BDD.Conex_BDD(c);
 		EstanciaDAO conex=EstanciaDAO.Conexion_Estancia(p);

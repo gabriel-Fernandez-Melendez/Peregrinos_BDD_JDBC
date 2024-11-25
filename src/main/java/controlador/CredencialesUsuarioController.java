@@ -1,12 +1,20 @@
 package controlador;
 
+import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Collection;
 
+import BDD.Peregrino_BDD;
+import DAO.CredencialesUsuarioDAO;
 import Modelo.CredencialesUsuario;
 import utilidades.Utilidades;
+import vista.Menus;
 
 public class CredencialesUsuarioController {
 
+	public static Connection con;
+	public static Peregrino_BDD peregrinosBDD=Peregrino_BDD.Conex_BDD(con);
+	
 	public static boolean ValidarCredencialesNuevas(Collection<CredencialesUsuario> lista,CredencialesUsuario cred) {
 		boolean val=false;
 		for(CredencialesUsuario u:lista) {
@@ -50,5 +58,22 @@ public class CredencialesUsuarioController {
 		cred.setNombre(nombre);
 		cred.setClave(clave);
 		return cred;
+	}
+	
+	public static boolean login_completo() {
+		boolean val=true;
+		Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
+		CredencialesUsuario cred=new CredencialesUsuario();
+		CredencialesUsuarioDAO datos_cred=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(peregrinosBDD);
+		lista=datos_cred.buscarTodos();
+		cred=CredencialesUsuarioController.Login();
+		cred=CredencialesUsuarioController.ValidarCredencialesLogin(lista, cred);
+		if(cred.getTipo_usuario()!=null) {
+			System.out.println("bienvenido: "+cred.getNombre()+" accedera como: "+cred.getTipo_usuario().getTipoDeUsuario());
+			//importante llamada al dato
+			Menus.MenuLogin(cred);
+			val =true;
+	}
+		return val;
 	}
 }

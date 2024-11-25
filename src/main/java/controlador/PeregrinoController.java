@@ -34,6 +34,7 @@ import org.xml.sax.SAXException;
 import BDD.Peregrino_BDD;
 import DAO.CarnetDAO;
 import DAO.CredencialesUsuarioDAO;
+import DAO.EstanciaDAO;
 import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
 import Modelo.Carnet;
@@ -49,12 +50,7 @@ public class PeregrinoController {
 	public static Connection c=null;
 	public static Peregrino_BDD con=Peregrino_BDD.Conex_BDD(c);
 	
-
-	
-	
-	
-	
-	
+	//METODO PARA CREAR AL NUEVO Peregrino
 	public static Peregrino NuevoPeregrino() {
 		boolean val =false;
 		Peregrino p = new Peregrino();
@@ -76,7 +72,6 @@ public class PeregrinoController {
 			boolean val_credenciales=val;
 		}
 		else {
-			//esto para que si no son validas las ingrese de nuevo
 			val=false;
 		}
 		if(val) {//este if tiene que tener true si el valor de las credenciales no existia hasta ahora y que las ingrese en caso de no existir
@@ -153,8 +148,15 @@ public class PeregrinoController {
 		credenciales.insertarConID(cred);
 		//hania codigo relativo a estancias aqui, creo que no sera necesario en el futuro pero dejo el comentatario en caso de que me sea necesario
 		System.out.println("se a añadido al peregrino con: "+p.getId()+" "+p.getNombre()+" "+p.getNacionalidad()+" "+carnet.getFecha_creacion()+" "+p.getParadas().get(0).getNombre()+" "+p.getParadas().get(0).getRegion());
-		Menus.MenuLogin(cred);//tengo que crear aun el carnet
+		
 		//si tengo que ingresar antes al peregrino esto  no tiene sentido 
+		PeregrinoDAO per =PeregrinoDAO.Conexion_Peregrino(con);
+		per.insertarSinID(p);
+		System.out.println("ahora volvera al menu principal para que pueda logearse!");
+		//por ultimo metemos la estancia
+
+
+		Menus.MenuPrincipalInvitado();//tengo que crear aun el carnet	
 		return p;
 	}
 
@@ -253,41 +255,48 @@ public class PeregrinoController {
             
             paradas=documento.createElement("paradas");
             carnet.appendChild(paradas);
+            
+            //de momento no hace falta pero para el futuro habria que hacer un  bucle for que recorra y haga varios nodos parada en funcion de las paradas dentro de la lista(se implementara mas adelante)
+            //hay hacer que el objeto peregrino cuando sea seleccionado por id llegue entero 
+            for(Parada par:p.getParadas()) {            	
             parada=documento.createElement("parada");
             paradas.appendChild(parada);
             orden=documento.createElement("orden");
-            parada.appendChild(orden);
-            //de momento no hace falta pero para el futuro habria que hacer un  bucle for que recorra y haga varios nodos parada en funcion de las paradas dentro de la lista(se implementara mas adelante)
-            //hay hacer que el objeto peregrino cuando sea seleccionado por id llegue entero 
-            orden_val=documento.createTextNode(p.getParadas().get(0).getId().toString());
+            parada.appendChild(orden);	
+            orden_val=documento.createTextNode(par.getId().toString());
             orden.appendChild(orden_val);
             nombre_parada=documento.createElement("nombre");
             parada.appendChild(nombre_parada);
-            nombre_val_val=documento.createTextNode(p.getParadas().get(0).getNombre());
+            nombre_val_val=documento.createTextNode(par.getNombre());
             nombre_parada.appendChild(nombre_val_val);
             region=documento.createElement("region");
             parada.appendChild(region);
-            region_val=documento.createTextNode(String.valueOf(p.getParadas().get(0).getRegion())); //casteo de un  char a string
-            region.appendChild(region_val);
-            
+            region_val=documento.createTextNode(String.valueOf(par.getRegion())); //casteo de un  char a string
+            region.appendChild(region_val);	
+            }
             estancias=documento.createElement("estancias");
             carnet.appendChild(estancias);
+            
+            
+            for(Estancia est:p.getEstancias()) {           
             //aqui hariamos lo mismo que se implementara en el futuro para que pueda haber mas estancias,se recorrera la lista de peregrino con un  bucle for (aun por implementar)
             estancia=documento.createElement("estancia");
             estancias.appendChild(estancia);
             id_estancia=documento.createElement("id");
             estancia.appendChild(id_estancia);
-            id_estancia_val=documento.createTextNode(p.getEstancias().get(0).getId().toString());
+            id_estancia_val=documento.createTextNode(est.getId().toString());
             id_estancia.appendChild(id_estancia_val);
             fecha_estancia=documento.createElement("fecha");
             estancia.appendChild(fecha_estancia);
-            fecha_estancia_val=documento.createTextNode(p.getEstancias().get(0).getFecha().toString());
+            fecha_estancia_val=documento.createTextNode(est.getFecha().toString());
             fecha_estancia.appendChild(fecha_estancia_val);
             //para el vip hay que hacer un if para confirmar si el booleano esta como true(no hace falta poner el "==")
             if(p.getEstancias().get(0).isVip()) {
             	vip=documento.createElement("vip");
             	estancia.appendChild(vip);
+            }	
             }
+            
             
             Source fuente = new DOMSource(documento);
             File fichero = new File("FicherosPeregrino/"+p.getNombre()+".xml");
@@ -305,7 +314,44 @@ public class PeregrinoController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-         
-
+	}
+	public static void Exportar(long id) {
+		Connection c=null;
+		Peregrino_BDD p=Peregrino_BDD.Conex_BDD(c);
+		PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(p);
+		Peregrino perg=new Peregrino();
+		perg= per.buscarPorID(id);
+		if(perg==null) {
+		}
+		System.out.println(perg.toString());
+		//Y AHORA PROBAMOS QUE FUNCIONE EL SELECCIONAR DE LAS LISTAR CON ESTE ID
+		Collection<Estancia> estancias=new ArrayList<Estancia>();
+		Collection<Parada> Paradas=new ArrayList<Parada>();
+		Collection<Estancia> estancias_peregrino=new ArrayList<Estancia>();
+		Collection<Parada> Paradas_peregrino=new ArrayList<Parada>();
+		EstanciaDAO est=EstanciaDAO.Conexion_Estancia(p);
+		ParadaDAO par =ParadaDAO.Conexion_Parada(p);
+		CarnetDAO car=CarnetDAO.Conexion_Peregrino(p);
+		estancias=est.buscarTodos();
+		Paradas=par.buscarTodos();
+		Carnet carnet=new Carnet();
+		carnet=car.buscarPorID(perg.getId_credenciales().getId());
+		perg.setCarnet_peregrino(carnet);
+		for(Estancia e:estancias) {
+			if(e.getPeregrino().getId()==perg.getId()) {
+				estancias_peregrino.add(e);
+			}
+		}
+		//importarte pasar la coleccion no de todas , si no las estancias que ha hecho ese peregrino
+		for(Estancia e:estancias_peregrino) {
+			for(Parada parada:Paradas) {
+				if(parada.getId()==e.getParada().getId()) {
+					Paradas_peregrino.add(parada);
+			}
+			}			
+		}
+		perg.setEstancias((List<Estancia>) estancias_peregrino);
+		perg.setParadas((List<Parada>) Paradas_peregrino);
+		PeregrinoController.ExportarXml(perg);
 	}
 }
