@@ -4,13 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import BDD.Peregrino_BDD;
 import Modelo.CredencialesUsuario;
+import Modelo.Estancia;
 import Modelo.Parada;
+import Modelo.Peregrino;
 import Modelo.Usuarios;
 
 public class ParadaDAO implements operacionesCRUD<Parada>{
@@ -43,8 +46,33 @@ public class ParadaDAO implements operacionesCRUD<Parada>{
 
 	@Override
 	public Parada buscarPorID(long id) {
-
-		return null;
+		Connection co=null;
+		Parada par=new Parada();
+		String consulta ="select * from parada where id_credenciales = ?";
+		if (this.con == null  ) {
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+			try {
+				PreparedStatement pstmt = con.conex_BDD.prepareStatement(consulta);
+				pstmt.setLong(1,id);			
+				ResultSet resultado = pstmt.executeQuery();
+				while(resultado.next()) {				
+					long id_parada=resultado.getLong("id");
+					long id_credenciales=resultado.getLong("id_credenciales");
+					String nombre=resultado.getString("nombre");
+					String region=resultado.getString("region");
+					String nombre_responsable=resultado.getString("nombre_responsable");
+					par.setId(id_parada);
+					par.setId_credenciales(id_credenciales);
+					par.setNombre(nombre);
+					par.setRegion(region.charAt(0));
+					par.setResponsable_parada(nombre_responsable);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return par;
 	}
 
 	@Override

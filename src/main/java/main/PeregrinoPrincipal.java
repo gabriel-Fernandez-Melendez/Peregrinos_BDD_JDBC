@@ -26,6 +26,7 @@ public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
 	Menus.MenuPrincipalInvitado();
+		Connection c=null;
 	
 }
 }

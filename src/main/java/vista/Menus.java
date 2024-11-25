@@ -7,9 +7,12 @@ import java.util.Scanner;
 
 import BDD.Peregrino_BDD;
 import DAO.CredencialesUsuarioDAO;
+import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
 import Modelo.*;
 import controlador.CredencialesUsuarioController;
+import controlador.EstanciaController;
+import controlador.ParadaController;
 import controlador.PeregrinoController;
 import utilidades.Utilidades;
 
@@ -52,8 +55,7 @@ public class Menus {
 			break;
 		case 2:
 			val=false;
-			do {
-				
+			do {				
 				val=CredencialesUsuarioController.login_completo();
 				if(val) {
 					val=true;
@@ -90,14 +92,14 @@ public class Menus {
 			break;
 		case Responsable_Parada:
 			//meter el !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SELLADO
-			Menu_ResponsableParada();
+			Menu_ResponsableParada(cred);
 			break;
 		case Peregrino:
 			
 			MenuPeregrino(cred);
 			break;
 		case Administrador_General:
-			//Menu_AdminGeneral();
+			Menu_AdminGeneral(cred);
 			break;			
 		default:
 			System.out.println("algo no ha ido como se esperaba");
@@ -158,7 +160,7 @@ public class Menus {
 		}		
 				} while (val);
 	}
-	public static void Menu_ResponsableParada() {
+	public static void Menu_ResponsableParada(CredencialesUsuario cred) {
 		boolean val =true;
 		Scanner scan =new Scanner(System.in);
 		int elecc = -1;
@@ -167,11 +169,12 @@ public class Menus {
 		do {
 			System.out.println("Bienvenido invitado, que desea hacer en el sistema: ");
 			System.out.println("1 - Sellar carnet de peregrino");
+			System.out.println("2 - Exportar estancias por fecha");
 			System.out.println("0 - salir");
 			System.out.println("-------------------------");			
 			scan.reset();			
 			elecc=scan.nextInt();
-			if(elecc<0 || elecc>1) {
+			if(elecc<0 || elecc>2) {
 				System.out.println("el numero no es valido, introduzca un numero valido");
 				val=false;
 			}	
@@ -186,6 +189,19 @@ public class Menus {
 			//aqui va el metodo de sellado!!!!!!!!!
 			
 			break;
+		case 2:
+			ParadaDAO par=ParadaDAO.Conexion_Parada(peregrinosBDD);
+			Parada parada = new Parada();
+			parada=par.buscarPorID(cred.getId());
+			EstanciaController.ExportarEstancias(parada);
+			val=Utilidades.leerBoolean();
+			if(val) {
+			MenuPrincipalInvitado();	
+			}
+			else {
+				val=false;
+			}		
+			break;
 		case 0:
 			System.out.println("seguro que quiere salir del programa?");
 			//meter el validador booleano
@@ -196,7 +212,7 @@ public class Menus {
 		}		
 				} while (val);
 	}
-	public static void Menu_AdminGeneral() {
+	public static void Menu_AdminGeneral(CredencialesUsuario cred) {
 		boolean val =true;
 		Scanner scan =new Scanner(System.in);
 		int elecc = -1;
@@ -223,7 +239,9 @@ public class Menus {
 		switch (elecc) {
 		case 1:
 			//meter aqui la funcion de crear nueva parada 
-			//Controlador_Parada.NuevaParada();
+			
+			val=ParadaController.NuevaParada();
+			if(val)System.out.println("se añadio con exito");
 			System.out.println("Quieres volveral menu principal?");
 			val=Utilidades.leerBoolean();
 			if(val) {

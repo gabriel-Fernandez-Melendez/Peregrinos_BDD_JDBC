@@ -130,10 +130,10 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		return false;
 	}
 	
-	public  Collection<Estancia> BuscarEstanciasPorFechas(LocalDate fechaini,LocalDate fechafin){
+	public  Collection<Estancia> BuscarEstanciasPorFechas(LocalDate fechaini,LocalDate fechafin,Parada p){
 		Connection co=null;
 		List<Estancia> lista=new ArrayList<>();
-		String consulta ="select * from estancia where fecha BETWEEN ? AND ?";
+		String consulta ="select * from estancia where fecha BETWEEN ? AND ? AND id_parada =?";
 		if (this.con == null  ) {
 			this.con = Peregrino_BDD.Conex_BDD(co);
 		}
@@ -142,6 +142,7 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 				PreparedStatement pstmt = con.conex_BDD.prepareStatement(consulta);
 				pstmt.setDate(1,java.sql.Date.valueOf(fechaini));
 				pstmt.setDate(2,java.sql.Date.valueOf(fechafin));
+				pstmt.setLong(3, p.getId());
 				ResultSet resultado = pstmt.executeQuery();
 				while(resultado.next()) {
 					Estancia estancia = new Estancia();

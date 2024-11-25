@@ -68,6 +68,6 @@ public class Estancia {
 	//metodo to string(por defecto aun sin ser modificado)
 	@Override
 	public String toString() {
-		return "Estancia [id=" + id + ", fecha=" + fecha + ", vip=" + vip + "]";
+		return "id: " + id + ", fecha: " + fecha + ", vip: " + vip + ", id dle peregrino "+ peregrino.getId();
 	}
 }

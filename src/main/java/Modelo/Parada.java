@@ -42,7 +42,6 @@ public class Parada implements Serializable{//NOTA habra que hacer otro construc
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}

@@ -61,7 +61,7 @@ public class CredencialesUsuarioController {
 	}
 	
 	public static boolean login_completo() {
-		boolean val=true;
+		boolean val=false;
 		Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();
 		CredencialesUsuario cred=new CredencialesUsuario();
 		CredencialesUsuarioDAO datos_cred=CredencialesUsuarioDAO.Conexion_CredencialesUsuario(peregrinosBDD);
@@ -73,7 +73,10 @@ public class CredencialesUsuarioController {
 			//importante llamada al dato
 			Menus.MenuLogin(cred);
 			val =true;
-	}
+			}
+		else {
+			System.out.println("no son validas intente de nuevo");
+		}
 		return val;
 	}
 }
