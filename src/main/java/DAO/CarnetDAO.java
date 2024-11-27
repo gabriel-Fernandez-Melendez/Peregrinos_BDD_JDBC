@@ -147,4 +147,27 @@ public class CarnetDAO implements operacionesCRUD<Carnet>{
 		return false;
 	}
 
+	public boolean UpdateCarnet(boolean vip,long id) {
+		boolean val=false;
+		Connection co=null;
+		if (this.con == null  ) {			
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		String update="update carnet set  distancia=distancia+5.0 , n_vips=? where id=? ";
+		try {
+			PreparedStatement pstmt = con.conex_BDD.prepareStatement(update);
+			pstmt.setBoolean(1, vip);
+			pstmt.setLong(2, id);
+		int resultadomodificacion = pstmt.executeUpdate();	
+		if(resultadomodificacion>1) {
+			System.out.println("su carnet tiene el sello!");
+			val=true;
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return val;
+		
+	}
 }

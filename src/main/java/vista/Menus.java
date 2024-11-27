@@ -10,6 +10,7 @@ import DAO.CredencialesUsuarioDAO;
 import DAO.ParadaDAO;
 import DAO.PeregrinoDAO;
 import Modelo.*;
+import controlador.CarnetController;
 import controlador.CredencialesUsuarioController;
 import controlador.EstanciaController;
 import controlador.ParadaController;
@@ -134,7 +135,7 @@ public class Menus {
 			PeregrinoDAO per=PeregrinoDAO.Conexion_Peregrino(peregrinosBDD);
 			Peregrino p = new Peregrino();
 			p=per.buscarPorID(cred.getId());
-			PeregrinoController.Exportar(p.getId());
+			PeregrinoController.Exportar(p.getId_credenciales().getId());
 			System.out.println("Quieres volveral menu principal?");
 			val=Utilidades.leerBoolean();
 			if(val) {
@@ -187,7 +188,15 @@ public class Menus {
 		switch (elecc) {
 		case 1:
 			//aqui va el metodo de sellado!!!!!!!!!
-			
+			CarnetController.SellarCarnet(cred);
+			System.out.println("seguro que quiere salir del programa?");
+			val=Utilidades.leerBoolean();
+			if(val) {
+				MenuPrincipalInvitado();	
+				}
+				else {
+					val=false;
+				}
 			break;
 		case 2:
 			ParadaDAO par=ParadaDAO.Conexion_Parada(peregrinosBDD);

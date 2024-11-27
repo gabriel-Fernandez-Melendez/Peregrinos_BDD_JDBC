@@ -335,7 +335,7 @@ public class PeregrinoController {
 		estancias=est.buscarTodos();
 		Paradas=par.buscarTodos();
 		Carnet carnet=new Carnet();
-		carnet=car.buscarPorID(perg.getId_credenciales().getId());
+		carnet=car.buscarPorID(perg.getCarnet_peregrino().getId());
 		perg.setCarnet_peregrino(carnet);
 		for(Estancia e:estancias) {
 			if(e.getPeregrino().getId()==perg.getId()) {

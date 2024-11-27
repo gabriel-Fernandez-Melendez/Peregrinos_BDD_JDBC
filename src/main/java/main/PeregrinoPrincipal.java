@@ -17,6 +17,7 @@ import Modelo.CredencialesUsuario;
 import Modelo.Estancia;
 import Modelo.Parada;
 import Modelo.Peregrino;
+import controlador.CarnetController;
 import controlador.CredencialesUsuarioController;
 import controlador.ParadaController;
 import controlador.PeregrinoController;
@@ -26,7 +27,6 @@ public class PeregrinoPrincipal {
 
 	public static void main(String[] args) {
 	Menus.MenuPrincipalInvitado();
-		Connection c=null;
 	
 }
 }

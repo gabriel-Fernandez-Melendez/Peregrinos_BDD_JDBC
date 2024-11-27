@@ -47,13 +47,13 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		if (this.con == null  ) {			
 			this.con = Peregrino_BDD.Conex_BDD(co);
 		}			
-		String insert="INSERT INTO estancia( id_parada_ini, fecha_exp,distancia,n_vips) VALUES (?,?,?,?)";
+		String insert="INSERT INTO estancia( id_parada,id_peregrino,fecha,es_vip) VALUES (?,?,?,?)";
 		try {
 			//esta linea puede resultar confusa(no  hay nada)
 			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
 			pstmt.setLong(1,c.getParada().getId());
 			pstmt.setLong(2,p.getId());
-			pstmt.setDate(3,java.sql.Date.valueOf(carnet.getFecha_creacion()));
+			pstmt.setDate(3,java.sql.Date.valueOf(LocalDate.now()));
 			pstmt.setBoolean(4,c.isVip());
 			int resultadoInsercion = pstmt.executeUpdate();
 			if (resultadoInsercion >= 1) {
@@ -177,5 +177,31 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	//pense que este seria el mejor luegar para poner este metodo ya que como es una tabla en la base pero no una entidad la puse en el controlador que considere esta relacionado
+	public boolean Sellado(Peregrino p,boolean vip) {
+		Connection co=null;
+		String insert ="insert into sellado_en_parada(id_parada,id_peregrino,fecha,es_vip) values (?,?,?,?)";
+		if (this.con == null  ) {
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		try {
+			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
+			pstmt.setLong(1, p.getParadas().get(0).getId());
+			pstmt.setLong(2, p.getId());
+			pstmt.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
+			pstmt.setBoolean(4, vip);
+			int resultadoInsercion = pstmt.executeUpdate();
+			if (resultadoInsercion >= 1) {
+				System.out.println("se han almacenado las credenciales del usuario");
+			}
+			else {
+				System.out.println("hubo algun error al momento de la insercion");
+			}
+			Peregrino_BDD.cerrarConexion(co);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 }
