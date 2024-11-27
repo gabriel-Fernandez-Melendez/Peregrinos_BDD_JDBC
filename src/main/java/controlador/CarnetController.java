@@ -2,6 +2,8 @@ package controlador;
 
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import BDD.Peregrino_BDD;
 import DAO.CarnetDAO;
@@ -45,8 +47,11 @@ public class CarnetController {
 		EstanciaDAO est=EstanciaDAO.Conexion_Estancia(peregrinosBDD);
 		ParadaDAO parada=ParadaDAO.Conexion_Parada(peregrinosBDD);		
 		Peregrino p = new Peregrino();
+		
 		p=par.buscarPorID(id);
 		parada_aux=parada.buscarPorID(cred.getId());
+		List<Parada> lista=new ArrayList<>();
+		lista.add(parada_aux);
 		System.out.println("quiere hacer una estancia en la parada?");
 		val=Utilidades.leerBoolean();
 		if(val) {
@@ -65,6 +70,9 @@ public class CarnetController {
 		}
 		}
 		//crear el objeto para almacer carnets y estancias
+		//le ponemos al peregrino la parada
+		
+		p.setParadas(lista);
 		car.UpdateCarnet(vip,p.getCarnet_peregrino().getId());
 		est.Sellado(p, vip);
 		}

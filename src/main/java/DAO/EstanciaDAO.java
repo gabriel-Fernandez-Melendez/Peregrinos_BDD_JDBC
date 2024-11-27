@@ -180,7 +180,7 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 	//pense que este seria el mejor luegar para poner este metodo ya que como es una tabla en la base pero no una entidad la puse en el controlador que considere esta relacionado
 	public boolean Sellado(Peregrino p,boolean vip) {
 		Connection co=null;
-		String insert ="insert into sellado_en_parada(id_parada,id_peregrino,fecha,es_vip) values (?,?,?,?)";
+		String insert ="insert into sellado_en_parada(id_parada,id_peregrino,fecha_de_sello) values (?,?,?)";
 		if (this.con == null  ) {
 			this.con = Peregrino_BDD.Conex_BDD(co);
 		}
@@ -189,7 +189,6 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 			pstmt.setLong(1, p.getParadas().get(0).getId());
 			pstmt.setLong(2, p.getId());
 			pstmt.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
-			pstmt.setBoolean(4, vip);
 			int resultadoInsercion = pstmt.executeUpdate();
 			if (resultadoInsercion >= 1) {
 				System.out.println("se han almacenado las credenciales del usuario");
