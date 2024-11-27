@@ -153,8 +153,8 @@ public class PeregrinoController {
 		PeregrinoDAO per =PeregrinoDAO.Conexion_Peregrino(con);
 		per.insertarSinID(p);
 		System.out.println("ahora volvera al menu principal para que pueda logearse!");
-		//por ultimo metemos la estancia
-
+		//por ultimo metemos la estancia(ESTA NO ES LA ESTANCIA SI NO EL SELLADO DE PARADA , TENGO QUE METER ESE METODO DENTRO DE LA CREACION DEL PEREGRINO)
+		
 
 		Menus.MenuPrincipalInvitado();//tengo que crear aun el carnet	
 		return p;
