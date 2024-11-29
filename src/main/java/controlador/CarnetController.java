@@ -20,8 +20,12 @@ import utilidades.Utilidades;
 
 public class CarnetController {
 	
+	//campos necesarios para la coneccion de los DAO a lo largo de algunos metodos incluidor en esta clase
 	public static Connection con;
 	public static Peregrino_BDD peregrinosBDD=Peregrino_BDD.Conex_BDD(con);
+	
+	//todos los metodos de esta clase son estaticos para usarlos sin crear estancias de la clase
+	
 	//el nuevo carnet de momento  no hace falta por que meteremos dentro de las DAO
 	public static Carnet NuevoCarnet(Peregrino p) {
 		Carnet ret =new Carnet();
@@ -34,20 +38,20 @@ public class CarnetController {
 		return ret;
 	}
 	
+	//metodo encargado de sellar el carnet en la tabla intermedia que existe entre las entidades
 	public static void SellarCarnet(CredencialesUsuario cred) {
 		boolean vip=false;
 		boolean val=false;
 		//guardamos las credenciales para buscar la parada
 		Parada parada_aux=new Parada();
-		//hacer el sellado y la estancia al final
 		System.out.println("Buenas peregrino ,digame su id de peregrino: ");
 		long id=Utilidades.LeerNumero();
+		//todos los objetos de conexiones necesarias para llenar los datos de la tabla
 		PeregrinoDAO par =PeregrinoDAO.Conexion_Peregrino(peregrinosBDD);
 		CarnetDAO car=CarnetDAO.Conexion_Peregrino(peregrinosBDD);
 		EstanciaDAO est=EstanciaDAO.Conexion_Estancia(peregrinosBDD);
 		ParadaDAO parada=ParadaDAO.Conexion_Parada(peregrinosBDD);		
-		Peregrino p = new Peregrino();
-		
+		Peregrino p = new Peregrino();	
 		p=par.buscarPorID(id);
 		parada_aux=parada.buscarPorID(cred.getId());
 		List<Parada> lista=new ArrayList<>();
@@ -63,17 +67,15 @@ public class CarnetController {
 			//esta solo se ejecuta si quiere  una estancia el usuario
 			Estancia estancia=new Estancia();
 			estancia.setParada(parada_aux);
-			//aqui que darle los atributos completos del metodo
 			Carnet carnet=new Carnet();
 			carnet=car.buscarPorID(p.getCarnet_peregrino().getId());
 			est.insertarSinID(estancia,p,carnet);
 		}
 		}
 		//crear el objeto para almacer carnets y estancias
-		//le ponemos al peregrino la parada
-		
+		//le ponemos al peregrino la parada		
 		p.setParadas(lista);
 		car.UpdateCarnet(vip,p.getCarnet_peregrino().getId());
-		est.Sellado(p, vip);
+		est.Sellado(p);
 		}
 }

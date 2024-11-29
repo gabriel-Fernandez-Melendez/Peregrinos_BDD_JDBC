@@ -44,6 +44,7 @@ public class ParadaDAO implements operacionesCRUD<Parada> {
 		return 0;
 	}
 
+	//usamos el metodo que localiza por el id de credenciales por que es la forma mas sencilla de conseguir desde el login un dato que lo relacione 
 	@Override
 	public Parada buscarPorID(long id) {
 		Connection co = null;
@@ -102,8 +103,6 @@ public class ParadaDAO implements operacionesCRUD<Parada> {
 				par.setRegion(region.charAt(0));
 				par.setResponsable_parada(nombre_responsable);
 				lista.add(par);
-				// BORRAR ESTA LINEA AL TERMINAR LAS PRUEBAS
-				System.out.println(par.toString());
 			}
 			Peregrino_BDD.cerrarConexion(co);
 		} catch (SQLException e) {

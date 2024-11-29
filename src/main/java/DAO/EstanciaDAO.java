@@ -40,7 +40,6 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		return false;
 	}
 
-
 	public long insertarSinID(Estancia c,Peregrino p,Carnet carnet) {
 		int id =0;
 		Connection co=null;
@@ -178,7 +177,7 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		return 0;
 	}
 	//pense que este seria el mejor luegar para poner este metodo ya que como es una tabla en la base pero no una entidad la puse en el controlador que considere esta relacionado
-	public boolean Sellado(Peregrino p,boolean vip) {
+	public boolean Sellado(Peregrino p) {
 		Connection co=null;
 		String insert ="insert into sellado_en_parada(id_parada,id_peregrino,fecha_de_sello) values (?,?,?)";
 		if (this.con == null  ) {

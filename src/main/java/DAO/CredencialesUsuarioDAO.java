@@ -12,7 +12,6 @@ import BDD.Peregrino_BDD;
 import Modelo.CredencialesUsuario;
 import Modelo.Usuarios;
 
-
 public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuario> {
 
 	public static CredencialesUsuarioDAO Datos_CredencialesUsuario;
@@ -131,8 +130,6 @@ public class CredencialesUsuarioDAO implements operacionesCRUD<CredencialesUsuar
 				cred.setNombre(nombre);
 				cred.setClave(clave);				
 				lista.add(cred);
-				//BORRAR ESTA LINEA AL TERMINAR LAS PRUEBAS
-				System.out.println(cred.toString());
 			}
 			Peregrino_BDD.cerrarConexion(co);
 		} catch (SQLException e) {

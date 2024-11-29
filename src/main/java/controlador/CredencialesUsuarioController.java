@@ -12,8 +12,11 @@ import vista.Menus;
 
 public class CredencialesUsuarioController {
 
+	//campos necesarios para la coneccion de los DAO a lo largo de algunos metodos incluidor en esta clase
 	public static Connection con;
 	public static Peregrino_BDD peregrinosBDD=Peregrino_BDD.Conex_BDD(con);
+	
+	//todos los metodos de esta clase son estaticos para usarlos sin crear estancias de la clase
 	
 	public static boolean ValidarCredencialesNuevas(Collection<CredencialesUsuario> lista,CredencialesUsuario cred) {
 		boolean val=false;
@@ -60,6 +63,7 @@ public class CredencialesUsuarioController {
 		return cred;
 	}
 	
+	//el do while dentro del menu
 	public static boolean login_completo() {
 		boolean val=false;
 		Collection<CredencialesUsuario> lista=new ArrayList<CredencialesUsuario>();

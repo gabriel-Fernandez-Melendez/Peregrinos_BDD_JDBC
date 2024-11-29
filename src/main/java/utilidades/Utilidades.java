@@ -32,8 +32,8 @@ public class Utilidades {
 		Scanner scan=new Scanner(System.in);
 		String linea;
 		do {			
-			 linea =scan.next();
-			 if(Pattern.matches("[a-zA-Z]+",linea)) {
+			 linea =scan.nextLine();
+			 if(Pattern.matches("^[a-zA-Z]+$",linea)) {
 				 val=true;
 			 }
 			 else {

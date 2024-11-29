@@ -120,7 +120,7 @@ public class Menus {
 			System.out.println("0 - salir");
 			System.out.println("-------------------------");			
 			scan.reset();			
-			elecc=scan.nextInt();
+			elecc=Utilidades.LeerNumero();
 			if(elecc<0 || elecc>1) {
 				System.out.println("el numero no es valido, introduzca un numero valido");
 				val=false;
@@ -174,7 +174,7 @@ public class Menus {
 			System.out.println("0 - salir");
 			System.out.println("-------------------------");			
 			scan.reset();			
-			elecc=scan.nextInt();
+			elecc=Utilidades.LeerNumero();
 			if(elecc<0 || elecc>2) {
 				System.out.println("el numero no es valido, introduzca un numero valido");
 				val=false;

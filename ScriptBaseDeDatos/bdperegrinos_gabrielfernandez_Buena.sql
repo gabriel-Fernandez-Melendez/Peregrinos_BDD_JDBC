@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-11-2024 a las 11:20:08
+-- Tiempo de generación: 29-11-2024 a las 18:38:17
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -40,9 +40,9 @@ CREATE TABLE `carnet` (
 --
 
 INSERT INTO `carnet` (`id`, `id_parada_ini`, `fecha_exp`, `distancia`, `n_vips`) VALUES
-(1, 1, '2024-11-12', 5, 1),
-(2, 2, '2024-11-12', 0, 0),
-(3, 3, '2024-11-12', 0, 0),
+(1, 1, '2024-11-12', 25, 0),
+(2, 2, '2024-11-12', 25, 0),
+(3, 3, '2024-11-12', 10, 0),
 (4, 4, '2024-11-12', 0, 0),
 (5, 5, '2024-11-12', 0, 0);
 
@@ -95,7 +95,13 @@ CREATE TABLE `estancia` (
 --
 
 INSERT INTO `estancia` (`id`, `id_parada`, `id_peregrino`, `fecha`, `es_vip`) VALUES
-(1, 1, 1, '2024-11-27', 0);
+(1, 1, 1, '2024-11-27', 0),
+(2, 2, 1, '2024-11-27', 0),
+(3, 3, 1, '2024-11-27', 0),
+(4, 4, 1, '2024-11-27', 0),
+(5, 5, 1, '2024-11-27', 0),
+(6, 1, 2, '2024-11-27', 0),
+(7, 2, 2, '2024-11-27', 0);
 
 -- --------------------------------------------------------
 
@@ -165,7 +171,19 @@ CREATE TABLE `sellado_en_parada` (
 --
 
 INSERT INTO `sellado_en_parada` (`id`, `id_peregrino`, `id_parada`, `fecha_de_sello`) VALUES
-(1, 1, 1, '2024-11-27');
+(1, 1, 1, '2024-11-27'),
+(2, 1, 2, '2024-11-27'),
+(3, 1, 3, '2024-11-27'),
+(4, 1, 4, '2024-11-27'),
+(5, 1, 5, '2024-11-27'),
+(6, 2, 1, '2024-11-27'),
+(7, 2, 2, '2024-11-27'),
+(8, 2, 3, '2024-11-27'),
+(9, 2, 4, '2024-11-27'),
+(10, 2, 5, '2024-11-27'),
+(11, 3, 1, '2024-11-27'),
+(12, 3, 2, '2024-11-27'),
+(13, 4, 4, '2024-11-27');
 
 --
 -- Índices para tablas volcadas
@@ -189,8 +207,8 @@ ALTER TABLE `credenciales_usuario`
 --
 ALTER TABLE `estancia`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_parada` (`id_parada`),
-  ADD UNIQUE KEY `id_peregrino` (`id_peregrino`);
+  ADD KEY `id_peregrino` (`id_peregrino`) USING BTREE,
+  ADD KEY `id_parada` (`id_parada`) USING BTREE;
 
 --
 -- Indices de la tabla `parada`
@@ -212,8 +230,8 @@ ALTER TABLE `peregrino`
 --
 ALTER TABLE `sellado_en_parada`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id_peregrino` (`id_peregrino`),
-  ADD UNIQUE KEY `id_parada` (`id_parada`);
+  ADD KEY `id_peregrino` (`id_peregrino`) USING BTREE,
+  ADD KEY `id_parada` (`id_parada`) USING BTREE;
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -235,7 +253,7 @@ ALTER TABLE `credenciales_usuario`
 -- AUTO_INCREMENT de la tabla `estancia`
 --
 ALTER TABLE `estancia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `parada`
@@ -253,7 +271,7 @@ ALTER TABLE `peregrino`
 -- AUTO_INCREMENT de la tabla `sellado_en_parada`
 --
 ALTER TABLE `sellado_en_parada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas
