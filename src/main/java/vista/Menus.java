@@ -228,7 +228,7 @@ public class Menus {
 		do {
 					
 		do {
-			System.out.println("Bienvenido invitado, que desea hacer en el sistema: ");
+			System.out.println("Bienvenido Administrador general, que desea hacer en el sistema: ");
 			System.out.println("1 - registrar parada");
 			System.out.println("0 - salir");
 			System.out.println("-------------------------");			
@@ -257,7 +257,9 @@ public class Menus {
 			MenuPrincipalInvitado();	
 			}
 			else {
-				val=false;
+				//Correcion del cierre de sesion cual se indica que no se quiere salir del menu
+				System.out.println("se volvera al menu principal del administrador general");
+				Menu_AdminGeneral(cred);
 			}		
 			break;
 		case 0:
@@ -267,7 +269,9 @@ public class Menus {
 				MenuPrincipalInvitado();	
 				}
 				else {
-					val=false;
+					//Correcion del cierre de sesion cual se indica que no se quiere salir del menu
+					System.out.println("se volvera al menu principal del administrador general");
+					Menu_AdminGeneral(cred);
 				}
 			break;
 		default:
