@@ -66,8 +66,9 @@ public class PeregrinoDAO implements operacionesCRUD<Peregrino>{
 			
 			
 			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
-			pstmt.setLong(1,p.getCarnet_peregrino().getId());
-			pstmt.setLong(2,p.getId_credenciales().getId());
+			//Correccion: estaban puestas las llamadas a los id de forma invertida, por eso lanzaba el error
+			pstmt.setLong(1,p.getId_credenciales().getId()); //p.getCarnet_peregrino().getId()
+			pstmt.setLong(2,p.getCarnet_peregrino().getId());//p.getId_credenciales().getId()
 			pstmt.setString(3, p.getNombre());
 			pstmt.setString(4, p.getNacionalidad());
 			int resultadoInsercion = pstmt.executeUpdate();
