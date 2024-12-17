@@ -45,7 +45,8 @@ public class CredencialesUsuarioController {
 				break;
 			}
 			else {
-				System.out.println("no validas");
+				//Correccion , habia que comentar/borrar esta linea para que no se imprima repetidas vecesa por pantalla
+				//System.out.println("no validas");
 				val =true;
 			}
 		}			

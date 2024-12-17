@@ -43,10 +43,13 @@ public class ParadaController {
 			boolean val= false;
 			Parada parada =new Parada();
 			CredencialesUsuario responsable = new CredencialesUsuario();
+			//creacion del scaner para usar en el nombre de la parada y del encargado de la parada
+			Scanner scan=new Scanner(System.in);
 			do {	
-			System.out.println("Usted esta creando una  nueva parada");		
+			System.out.println("Usted esta creando una  nueva parada");	
+			//Correcion: debe poder aceptar espacios en blanco asi que no hare uso del metodo que hay en utils si no directamente del Scanner
 			System.out.println("inserte el nombre de la parada");
-			String nombre_parada = Utilidades.LeerCadena();
+			String nombre_parada = scan.nextLine(); //correcion del campo para que acepte espacios en blanco
 			if(nombre_parada==null) {
 				System.out.println("ningun campo puede estar vacio durante el proceso, intentelo de nuevo");
 				val=false;
@@ -63,7 +66,7 @@ public class ParadaController {
 			char region=regionString.charAt(0);
 			parada.setRegion(region);
 			System.out.println("introduzca el nombre del encargado de parada");
-			String nombre_completo = Utilidades.LeerCadena();
+			String nombre_completo = scan.nextLine(); //correcion del campo para que acepte espacios en blanco
 			if(nombre_completo==null) {
 				System.out.println("ningun campo puede estar vacio durante el proceso, intentelo de nuevo");
 				val=false;
