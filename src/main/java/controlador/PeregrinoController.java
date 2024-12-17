@@ -95,8 +95,21 @@ public class PeregrinoController {
 				System.out.println(i + " - " + paises.get(pais));
 				i++;
 			}
-			System.out.println("ingrese el numero del pais al que pertenece: ");
-			int pais_num = Utilidades.LeerNumero();
+			
+			//Correccion: ponemos un  if que verifique que el valor de pais num esta entre 1 y 48
+			int pais_num=0;
+			boolean validadornumero=false;
+			do {
+				System.out.println("ingrese el numero del pais al que pertenece: ");
+				pais_num = Utilidades.LeerNumero();
+				if(pais_num<1||pais_num>48) {
+					System.out.println("no es un numero valido porfavor ingrese un numero valido");
+				}
+				else {
+					validadornumero=true;
+				}
+			} while (!validadornumero);
+			 
 			// le quitamos 1 para pillar el que metio por pantalla el usuario
 			String valor_pais = claves.get((pais_num) - 1);
 			System.out.println("es su pais el " + paises.get(valor_pais));
