@@ -121,7 +121,7 @@ public class PeregrinoController {
 				val = false;
 			}
 		} while (!val);
-		val = true;
+		val = false;
 		do {
 			ArrayList<Parada> paradas = new ArrayList<Parada>();
 			ParadaDAO parada = ParadaDAO.Conexion_Parada(con);
@@ -147,7 +147,7 @@ public class PeregrinoController {
 				val = false;
 			}
 		} while (!val);
-
+		System.out.println("sale");
 		// lo primero a introducir es el carnet
 		Carnet carnet = new Carnet();
 		carnet = CarnetController.NuevoCarnet(p);// este metodo devuelve un objeto con los datos necesarios de un nuevo	carnet

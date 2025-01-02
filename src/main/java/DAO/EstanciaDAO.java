@@ -177,20 +177,33 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		return 0;
 	}
 	//pense que este seria el mejor luegar para poner este metodo ya que como es una tabla en la base pero no una entidad la puse en el controlador que considere esta relacionado
+	//correcion: no llegaba correctamente el id del peregrino, ya funciona correctamente al hacer una consulta que saca el valor del id de la base de datos y lo setea en el objeto pasado por parametro
 	public boolean Sellado(Peregrino p) {
 		Connection co=null;
+		String id_peregrino="SELECT id FROM peregrino ORDER BY id DESC LIMIT 0, 1";
 		String insert ="insert into sellado_en_parada(id_parada,id_peregrino,fecha_de_sello) values (?,?,?)";
 		if (this.con == null  ) {
 			this.con = Peregrino_BDD.Conex_BDD(co);
 		}
 		try {
 			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
+			//operacion del id del peregrino
+			PreparedStatement pstmt1 = con.conex_BDD.prepareStatement(id_peregrino);
+			ResultSet resultado1 = pstmt1.executeQuery();
+			while(resultado1.next()) {
+				long id = resultado1.getLong("id");
+				p.setId(id);
+			}
 			pstmt.setLong(1, p.getParadas().get(0).getId());
+			//Correcion: tengo que hacer la consulta para sacar el id del ultimo peregrino introducidoal hacerlo antes con solo el objeto llegaba nulo por que lo introduzco con id nulo
 			pstmt.setLong(2, p.getId());
 			pstmt.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
+			
+			//y seteamos el valor que salio del resultset como id
+			
 			int resultadoInsercion = pstmt.executeUpdate();
 			if (resultadoInsercion >= 1) {
-				System.out.println("se han almacenado las credenciales del usuario");
+				System.out.println("se han registrado su paso por la parada");
 			}
 			else {
 				System.out.println("hubo algun error al momento de la insercion");
