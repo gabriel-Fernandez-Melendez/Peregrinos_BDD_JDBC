@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import BDD.Peregrino_BDD;
 import Modelo.Carnet;
 import Modelo.CredencialesUsuario;
+import Modelo.Parada;
 import Modelo.Peregrino;
 
 //esta clase tiene singleton
@@ -128,8 +131,36 @@ public class PeregrinoDAO implements operacionesCRUD<Peregrino>{
 
 	@Override
 	public Collection<Peregrino> buscarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		Connection co = null;
+		List<Peregrino> lista = new ArrayList<>();
+
+		String consulta = "select * from peregrino";
+		if (this.con == null) {
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+		try {
+			PreparedStatement pstmt = con.conex_BDD.prepareStatement(consulta);
+			ResultSet resultado = pstmt.executeQuery();
+			while (resultado.next()) {
+				//id_credenciales,id_carnet,nombre,nacionalidad
+				Peregrino p = new Peregrino();
+				Carnet c=new Carnet();
+				long id_parada = resultado.getLong("id");
+				long id_carnet = resultado.getLong("id_carnet");
+				String nombre_p = resultado.getNString("nombre");
+				String pais = resultado.getNString("nacionalidad");
+				p.setId(id_parada);
+				p.setCarnet_peregrino(c);
+				p.setNombre(nombre_p);
+				p.setNacionalidad(pais);
+				lista.add(p);
+			}
+			Peregrino_BDD.cerrarConexion(co);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lista;
 	}
 
 	@Override

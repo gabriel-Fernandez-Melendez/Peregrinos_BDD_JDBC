@@ -176,6 +176,7 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	//correccion: tengo que añadir aqui el metodo de insertar la 
 	//pense que este seria el mejor luegar para poner este metodo ya que como es una tabla en la base pero no una entidad la puse en el controlador que considere esta relacionado
 	//correcion: no llegaba correctamente el id del peregrino, ya funciona correctamente al hacer una consulta que saca el valor del id de la base de datos y lo setea en el objeto pasado por parametro
 	public boolean Sellado(Peregrino p) {
@@ -187,13 +188,15 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 		}
 		try {
 			PreparedStatement pstmt = con.conex_BDD.prepareStatement(insert);
-			//operacion del id del peregrino
-			PreparedStatement pstmt1 = con.conex_BDD.prepareStatement(id_peregrino);
+			//operacion del id del peregrino(solo si el id es nulo )
+			if(p.getId()==null) {
+				PreparedStatement pstmt1 = con.conex_BDD.prepareStatement(id_peregrino);
 			ResultSet resultado1 = pstmt1.executeQuery();
 			while(resultado1.next()) {
 				long id = resultado1.getLong("id");
 				p.setId(id);
 			}
+			}	
 			pstmt.setLong(1, p.getParadas().get(0).getId());
 			//Correcion: tengo que hacer la consulta para sacar el id del ultimo peregrino introducidoal hacerlo antes con solo el objeto llegaba nulo por que lo introduzco con id nulo
 			pstmt.setLong(2, p.getId());

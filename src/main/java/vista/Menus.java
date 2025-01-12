@@ -3,6 +3,7 @@ package vista;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 import BDD.Peregrino_BDD;
@@ -188,8 +189,33 @@ public class Menus {
 		switch (elecc) {
 		case 1:
 			//aqui va el metodo de sellado!!!!!!!!!
-			CarnetController.SellarCarnet(cred);
-			System.out.println("seguro que quiere salir del programa?");
+			//correcion: de mostrar los id de los pegrinos que estan en la Base de Datos
+			Peregrino peregrino=new Peregrino();
+			do {
+			System.out.println("escoja el id de uno de los siguientes peregrinos");
+			ArrayList<Peregrino> lista = new ArrayList<>();
+			PeregrinoDAO per= PeregrinoDAO.Conexion_Peregrino(peregrinosBDD);
+			lista=(ArrayList<Peregrino>) per.buscarTodos();
+			int i = 1;
+			for(Peregrino p : lista) {
+				System.out.println(i+" - "+p.toString());
+				i++;
+			}
+			System.out.println("escoja uno de los peregrinos de la lista ingresando su el numero de la izquierda");
+			int id_peregrino=Utilidades.LeerNumero();
+			if(id_peregrino>=lista.size()+1) {
+				System.out.println("el numero ingresado  no es valido intentelo de nuevo");
+				val=false;
+			}
+			else {
+				System.out.println("quiere sellar el carner del peregrino: "+lista.get(id_peregrino-1));
+				val=Utilidades.leerBoolean();
+				peregrino = lista.get(id_peregrino-1);
+			}
+			} while (!val);
+			CarnetController.SellarCarnet(cred,peregrino);
+			System.out.println("se ha sellado el carnet");
+			System.out.println("quiere volver al menu principal?");
 			val=Utilidades.leerBoolean();
 			if(val) {
 				MenuPrincipalInvitado();	
@@ -203,11 +229,15 @@ public class Menus {
 			Parada parada = new Parada();
 			parada=par.buscarPorID(cred.getId());
 			EstanciaController.ExportarEstancias(parada);
+			//correccion :  no le decia al usuario que si queria volver al menu principal 
+			System.out.println("quiere volver al menu principal del programa?");
 			val=Utilidades.leerBoolean();
 			if(val) {
 			MenuPrincipalInvitado();	
 			}
 			else {
+				//llamada al mismo metodo en caso de que no quiera volver al principal que lo mande a las opcciones del menu del responsable
+				Menu_ResponsableParada(cred);
 				val=false;
 			}		
 			break;

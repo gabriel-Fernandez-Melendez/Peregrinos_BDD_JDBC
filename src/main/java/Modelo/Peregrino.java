@@ -105,9 +105,9 @@ public class Peregrino {
 	public void setId_credenciales(CredencialesUsuario id_credenciales) {
 		this.id_credenciales = id_credenciales;
 	}
-	//metodo to string(por defecto aun sin ser modificado)
+	//metodo to string modificado para mostrar un listado de peregrinos
 	@Override
 	public String toString() {
-		return "Peregrino [id=" + id + ", nombre=" + nombre + ", nacionalidad=" + nacionalidad + "]";
+		return ""+ getId() +" "+ getNombre();
 	}
 }

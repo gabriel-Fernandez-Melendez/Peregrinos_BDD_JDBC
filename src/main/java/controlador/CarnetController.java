@@ -39,20 +39,18 @@ public class CarnetController {
 	}
 	
 	//metodo encargado de sellar el carnet en la tabla intermedia que existe entre las entidades
-	public static void SellarCarnet(CredencialesUsuario cred) {
+	public static void SellarCarnet(CredencialesUsuario cred,Peregrino per) {
 		boolean vip=false;
 		boolean val=false;
 		//guardamos las credenciales para buscar la parada
 		Parada parada_aux=new Parada();
-		System.out.println("Buenas peregrino ,digame su id de peregrino: ");
-		long id=Utilidades.LeerNumero();
 		//todos los objetos de conexiones necesarias para llenar los datos de la tabla
 		PeregrinoDAO par =PeregrinoDAO.Conexion_Peregrino(peregrinosBDD);
 		CarnetDAO car=CarnetDAO.Conexion_Peregrino(peregrinosBDD);
 		EstanciaDAO est=EstanciaDAO.Conexion_Estancia(peregrinosBDD);
 		ParadaDAO parada=ParadaDAO.Conexion_Parada(peregrinosBDD);		
 		Peregrino p = new Peregrino();	
-		p=par.buscarPorID(id);
+		p=par.buscarPorID(per.getId());
 		parada_aux=parada.buscarPorID(cred.getId());
 		List<Parada> lista=new ArrayList<>();
 		lista.add(parada_aux);
