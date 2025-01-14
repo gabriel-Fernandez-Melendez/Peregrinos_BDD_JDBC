@@ -143,6 +143,7 @@ public class PeregrinoDAO implements operacionesCRUD<Peregrino>{
 			ResultSet resultado = pstmt.executeQuery();
 			while (resultado.next()) {
 				//id_credenciales,id_carnet,nombre,nacionalidad
+				//correccion : no habia creado un carnet pero no se lo seteaba vacio al peregrino 
 				Peregrino p = new Peregrino();
 				Carnet c=new Carnet();
 				long id_parada = resultado.getLong("id");
@@ -150,6 +151,7 @@ public class PeregrinoDAO implements operacionesCRUD<Peregrino>{
 				String nombre_p = resultado.getNString("nombre");
 				String pais = resultado.getNString("nacionalidad");
 				p.setId(id_parada);
+				c.setId(id_carnet); //setteamos el id del carnet
 				p.setCarnet_peregrino(c);
 				p.setNombre(nombre_p);
 				p.setNacionalidad(pais);

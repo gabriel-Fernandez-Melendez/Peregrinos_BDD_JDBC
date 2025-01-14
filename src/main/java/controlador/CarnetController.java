@@ -39,6 +39,7 @@ public class CarnetController {
 	}
 	
 	//metodo encargado de sellar el carnet en la tabla intermedia que existe entre las entidades
+	//correccion: estaba creando un objeto peregrino  nuevo  queb no era necesario para la logica de negocia ya que solo tenia que añadir el id al que pasaba por argunmento
 	public static void SellarCarnet(CredencialesUsuario cred,Peregrino per) {
 		boolean vip=false;
 		boolean val=false;
@@ -49,8 +50,6 @@ public class CarnetController {
 		CarnetDAO car=CarnetDAO.Conexion_Peregrino(peregrinosBDD);
 		EstanciaDAO est=EstanciaDAO.Conexion_Estancia(peregrinosBDD);
 		ParadaDAO parada=ParadaDAO.Conexion_Parada(peregrinosBDD);		
-		Peregrino p = new Peregrino();	
-		p=par.buscarPorID(per.getId());
 		parada_aux=parada.buscarPorID(cred.getId());
 		List<Parada> lista=new ArrayList<>();
 		lista.add(parada_aux);
@@ -65,15 +64,17 @@ public class CarnetController {
 			//esta solo se ejecuta si quiere  una estancia el usuario
 			Estancia estancia=new Estancia();
 			estancia.setParada(parada_aux);
+			estancia.setVip(vip);
 			Carnet carnet=new Carnet();
-			carnet=car.buscarPorID(p.getCarnet_peregrino().getId());
-			est.insertarSinID(estancia,p,carnet);
+			carnet=car.buscarPorID(per.getCarnet_peregrino().getId());
+			per.setCarnet_peregrino(carnet);
+			est.insertarSinID(estancia,per,carnet);
 		}
 		}
 		//crear el objeto para almacer carnets y estancias
 		//le ponemos al peregrino la parada		
-		p.setParadas(lista);
-		car.UpdateCarnet(vip,p.getCarnet_peregrino().getId());
-		est.Sellado(p);
+		per.setParadas(lista);
+		car.UpdateCarnet(vip,per.getCarnet_peregrino().getId());
+		est.Sellado(per);
 		}
 }
