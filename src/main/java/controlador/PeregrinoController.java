@@ -68,11 +68,6 @@ public class PeregrinoController {
 			Collection<CredencialesUsuario> lista = new ArrayList<CredencialesUsuario>();
 			lista = credenciales.buscarTodos();
 			val = CredencialesUsuarioController.ValidarCredencialesNuevas(lista, cred);
-			if (val) {
-				boolean val_credenciales = val;
-			} else {
-				val = false;
-			}
 			if (val) {// este if tiene que tener true si el valor de las credenciales no existia hasta
 						// ahora y que las ingrese en caso de no existir
 				System.out.println("las credenciales son validas");
