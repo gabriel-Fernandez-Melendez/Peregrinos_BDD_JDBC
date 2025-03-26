@@ -153,9 +153,10 @@ public class CarnetDAO implements operacionesCRUD<Carnet>{
 		if (this.con == null  ) {			
 			this.con = Peregrino_BDD.Conex_BDD(co);
 		}
-		String update="update carnet set  distancia=distancia+5.0 , n_vips=? where id=? ";
+		String update="update carnet set  distancia=distancia+5.0 , n_vips=n_vips+? where id=? ";
 		try {
 			PreparedStatement pstmt = con.conex_BDD.prepareStatement(update);
+			//hacer aqui bien el set a un  int ,  bo es booleano (ultima correccion)
 			pstmt.setBoolean(1, vip);
 			pstmt.setLong(2, id);
 		int resultadomodificacion = pstmt.executeUpdate();	

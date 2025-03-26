@@ -71,7 +71,7 @@ public class Menus {
 		case 0:
 			System.out.println("seguro que quiere salir del programa?");
 			val= Utilidades.leerBoolean();
-			if(val) {
+			if(val) { //esto pa salir del programa
 				System.out.println("saliendo del programa");
 				System.exit(0);
 			}
@@ -97,8 +97,7 @@ public class Menus {
 			//meter el !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!SELLADO
 			Menu_ResponsableParada(cred);
 			break;
-		case Peregrino:
-			
+		case Peregrino:		
 			MenuPeregrino(cred);
 			break;
 		case Administrador_General:
@@ -148,11 +147,11 @@ public class Menus {
 			}	
 			break;
 		case 0:
-			System.out.println("seguro que quiere salir del programa?");
+			System.out.println("seguro que quiere volver al menu principal?");
 			val=Utilidades.leerBoolean();
 			if(val) {
 				System.out.println("saliendo del programa");
-				System.exit(0);
+				MenuPrincipalInvitado();
 			}
 			else {
 				val=false;
@@ -163,6 +162,7 @@ public class Menus {
 		}		
 				} while (val);
 	}
+	
 	public static void Menu_ResponsableParada(CredencialesUsuario cred) {
 		boolean val =true;
 		Scanner scan =new Scanner(System.in);
@@ -202,7 +202,7 @@ public class Menus {
 				System.out.println(i+" - "+p.toString());
 				i++;
 			}
-			System.out.println("escoja uno de los peregrinos de la lista ingresando su el numero de la izquierda");
+			System.out.println("escoja uno de los peregrinos de la lista ingresando su  numero de la izquierda");
 			int id_peregrino=Utilidades.LeerNumero();
 			if(id_peregrino>=lista.size()+1) {
 				System.out.println("el numero ingresado  no es valido intentelo de nuevo");
@@ -217,13 +217,17 @@ public class Menus {
 			CarnetController.SellarCarnet(cred,peregrino);
 			System.out.println("se ha sellado el carnet");
 			System.out.println("quiere volver al menu principal?");
-			val=Utilidades.leerBoolean();
+			
+			do{
+				val=Utilidades.leerBoolean();
+			
 			if(val) {
 				MenuPrincipalInvitado();	
 				}
 				else {
-					val=false;
+					Menu_ResponsableParada(cred); //llama de mi metodo , la condicional en el while da igual realmente
 				}
+			}while(val);
 			break;
 		case 2:
 			ParadaDAO par=ParadaDAO.Conexion_Parada(peregrinosBDD);
@@ -245,7 +249,14 @@ public class Menus {
 		case 0:
 			System.out.println("seguro que quiere salir del programa?");
 			//meter el validador booleano
-
+			System.out.println("quiere volver al menu principal?");
+			val=Utilidades.leerBoolean();
+			if(val) {
+				MenuPrincipalInvitado();	
+				}
+				else {
+					val=false;
+				}
 		default:
 			System.out.println("algo a salido mal , intentelo de nuevo");
 			break;

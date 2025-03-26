@@ -70,6 +70,18 @@ public class CarnetController {
 			per.setCarnet_peregrino(carnet);
 			est.insertarSinID(estancia,per,carnet);
 		}
+		else {
+			//meter un else para que entre igual pero sin la estancia vip
+			System.out.println("perfecto, ya esta almacenado ,hasta la proxima!");
+			//esta solo se ejecuta si quiere  una estancia el usuario
+			Estancia estancia=new Estancia();
+			estancia.setParada(parada_aux);
+			estancia.setVip(vip);
+			Carnet carnet=new Carnet();
+			carnet=car.buscarPorID(per.getCarnet_peregrino().getId());
+			per.setCarnet_peregrino(carnet);
+			est.insertarSinID(estancia,per,carnet);
+		}
 		}
 		//crear el objeto para almacer carnets y estancias
 		//le ponemos al peregrino la parada		
