@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -273,6 +274,7 @@ public class PeregrinoController {
 			// hay hacer que el objeto peregrino cuando sea seleccionado por id llegue
 			// entero
 			for (Parada par : p.getParadas()) {
+				if(true) {																																					//Aqui es donde hay que modificar
 				parada = documento.createElement("parada");
 				paradas.appendChild(parada);
 				orden = documento.createElement("orden");
@@ -286,7 +288,9 @@ public class PeregrinoController {
 				region = documento.createElement("region");
 				parada.appendChild(region);
 				region_val = documento.createTextNode(String.valueOf(par.getRegion())); // casteo de un char a string
-				region.appendChild(region_val);
+				region.appendChild(region_val);	
+				}
+				
 			}
 			estancias = documento.createElement("estancias");
 			carnet.appendChild(estancias);
@@ -355,17 +359,21 @@ public class PeregrinoController {
 				estancias_peregrino.add(e);
 			}
 		}
-		// importarte pasar la coleccion no de todas , si no las estancias que ha hecho
+		// importarte pasar la coleccion no de todas , si no las estancias que ha hecho(Parada parada : Paradas) 
 		// ese peregrino
-		for (Estancia e : estancias_peregrino) {
-			for (Parada parada : Paradas) {
+		for (Parada parada : Paradas)  {
+			for  (Estancia e : estancias_peregrino) {
 				if (parada.getId() == e.getParada().getId()) {
 					Paradas_peregrino.add(parada);
 				}
 			}
 		}
+		ArrayList<Parada> listWithDuplicates = (ArrayList<Parada>) Paradas_peregrino;
+		ArrayList<Parada> listWithoutDuplicates = listWithDuplicates.stream()
+		    .distinct()
+		    .collect(Collectors.toCollection(ArrayList::new));
 		perg.setEstancias((List<Estancia>) estancias_peregrino);
-		perg.setParadas((List<Parada>) Paradas_peregrino);
+		perg.setParadas((List<Parada>) listWithoutDuplicates);
 		PeregrinoController.ExportarXml(perg);
 	}
 }

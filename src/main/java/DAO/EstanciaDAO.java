@@ -170,6 +170,45 @@ public class EstanciaDAO implements operacionesCRUD<Estancia>{
 			}
 		return lista;
 	}
+	
+	//esta coleccion enviarla al peregrino que se almacenara en xml 
+	public  Collection<Estancia> ListaSellado(Peregrino p,ArrayList<Parada> paradas){
+		Connection co=null;
+		List<Estancia> lista=new ArrayList<>();
+		String consulta ="select * from sellado_de_parada";
+		if (this.con == null  ) {
+			this.con = Peregrino_BDD.Conex_BDD(co);
+		}
+			try {
+				PreparedStatement pstmt = con.conex_BDD.prepareStatement(consulta);
+				ResultSet resultado = pstmt.executeQuery();
+				while(resultado.next()) {
+					Estancia estancia = new Estancia();
+					long id =resultado.getLong("id");
+					long id_parada =resultado.getLong("id_parada");
+					long id_peregrino =resultado.getLong("id_peregrino");
+					//FORMA DE PASAR DATE A LOCALDATE
+					LocalDate fecha=resultado.getDate("fecha").toLocalDate();
+					boolean n_vip=resultado.getBoolean("es_vip");
+					estancia.setId(id);
+					//el objeto parada para poder asignar el id y pasarlo a la estancia
+					Parada parada=new Parada();
+					parada.setId(id_parada);
+					estancia.setParada(parada);
+					//lo mismo para el peregrino
+					Peregrino per= new Peregrino();
+					per.setId(id_peregrino);
+					estancia.setPeregrino(per);
+					estancia.setFecha(fecha);
+					estancia.setVip(n_vip);
+					lista.add(estancia);
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return lista;
+	}
 
 	@Override
 	public long insertarSinID(Estancia elemento) {
